@@ -22,5 +22,13 @@ jobs:
     - name: Start PactBroker
       run: docker compose up -d
 
+    - name: Sample API Client check
+      run: ./gradlew check
+      working-directory: sample-api-client
+
+    - name: Sample API Server check
+      run: ./gradlew check
+      working-directory: sample-api-server
+
     - name: Stop PactBroker
       run: docker compose down
