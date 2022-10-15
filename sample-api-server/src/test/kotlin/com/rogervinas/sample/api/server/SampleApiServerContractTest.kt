@@ -35,7 +35,7 @@ class SampleApiServerContractTest {
 
   @State("Thing 123 exists")
   fun `thing 123 exists`() {
-    repository.reset(123)
+    repository.reset(125)
     repository.save(SampleThing("Foo", 123.45, LocalDate.of(2022, 10, 13)))
   }
 }

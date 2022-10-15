@@ -4,6 +4,7 @@ import assertk.assertThat
 import assertk.assertions.isEqualTo
 import assertk.assertions.isNull
 import au.com.dius.pact.consumer.MockServer
+import au.com.dius.pact.consumer.dsl.PactDslJsonBody
 import au.com.dius.pact.consumer.dsl.PactDslWithProvider
 import au.com.dius.pact.consumer.junit5.PactConsumerTestExt
 import au.com.dius.pact.consumer.junit5.PactTestFor
@@ -24,20 +25,14 @@ class SampleApiClientContractTest {
 
   companion object {
     private val THING123 = SampleThing("Foo", 123.45, LocalDate.of(2022, 10, 13))
-    private val THING123_JSON = """
-      {
-        "name": "Foo",
-        "value": 123.45,
-        "date": "2022-10-13"
-      }
-      """.trimIndent()
+    private val THING123_JSON_PACT = PactDslJsonBody()
+      .stringMatcher("name", "\\w+", "Foo")
+      .decimalType("value", 123.45)
+      .localDate("date", "yyyy-MM-dd", LocalDate.of(2022, 10, 13))
 
     private val THING123_ID = SampleThingId(123)
-    private val THING123_ID_JSON = """
-      {
-        "id": 123
-      }
-      """.trimIndent()
+    private val THING123_ID_JSON_PACT = PactDslJsonBody()
+      .integerType("id", 123)
   }
 
   @Pact(provider = "Sample API Server", consumer = "Sample API Client")
@@ -48,11 +43,11 @@ class SampleApiClientContractTest {
       .path("/thing")
       .method("POST")
       .headers(mapOf("Content-Type" to "application/json"))
-      .body(THING123_JSON)
+      .body(THING123_JSON_PACT)
       .willRespondWith()
       .status(201)
       .headers(mapOf("Content-Type" to "application/json"))
-      .body(THING123_ID_JSON)
+      .body(THING123_ID_JSON_PACT)
       .toPact(V4Pact::class.java)
   }
 
@@ -77,7 +72,7 @@ class SampleApiClientContractTest {
       .willRespondWith()
       .status(200)
       .headers(mapOf("Content-Type" to "application/json"))
-      .body(THING123_JSON)
+      .body(THING123_JSON_PACT)
       .toPact(V4Pact::class.java)
   }
 
