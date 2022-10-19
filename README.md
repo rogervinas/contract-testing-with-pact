@@ -165,3 +165,50 @@ If now we execute tests on `SampleApiClientContractTest`:
 You can check the "contract" in `build/pacts/Sample API Client-Sample API Server.json` file.
 
 ## 3) Consumer publishes the "contract"
+
+The consumer "contract" is now generated locally, but it should be published to a [Pact Broker](https://docs.pact.io/pact_broker), so it can be shared with the provider.
+
+1. Just for this PoC we will use docker compose to start a local instance of [Pact Broker](https://docs.pact.io/pact_broker) with a sqlite database:
+```shell
+docker compose up -d
+```
+
+2. We can go to http://localhost:9292, and we will see a "contract" example that comes by default:
+![PactBroker-1](doc/PactBroker-1.png)
+
+3. We publish our consumer "contract" using pact gradle plugin:
+```shell
+cd ./sample-api-client
+./gradlew pactPublish
+
+> Task :pactPublish
+Publishing 'Sample API Client-Sample API Server.json' ... 
+OK
+```
+
+4. We refresh http://localhost:9292, and we will see our consumer "contract":
+![PactBroker-2](doc/PactBroker-2.gif)
+
+## 4) Provider tests the "contract" using a consumer mock
+
+TODO
+
+## 5) Provider verifies or refutes the "contract" publishing the results of the test
+
+TODO
+
+## 6) Consumer should only be deployed if the "contract" is verified
+
+TODO
+
+## 7) Provider should only be deployed if the "contract" is verified
+
+TODO
+
+## Implementation Details
+
+* TODO Pact gradle plugin id("au.com.dius.pact") version "4.3.15"
+  * TODO properties set for the consumer
+  * TODO properties set for the provider
+* TODO Pact dependencies for the consumer au.com.dius.pact.consumer:junit5:4.3.15
+* TODO Pact dependencies for the provider au.com.dius.pact.provider:junit5spring:4.3.15
