@@ -186,7 +186,7 @@ Publishing 'Sample API Client-Sample API Server.json' ...
 OK
 ```
 
-4. We refresh http://localhost:9292, and we will see our consumer "contract":
+4. We go back to http://localhost:9292, and we will see our consumer "contract":
 ![PactBroker-2](doc/PactBroker-2.gif)
 
 ## 4) Provider tests the "contract" using a consumer mock
