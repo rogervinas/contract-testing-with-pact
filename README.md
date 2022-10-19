@@ -14,6 +14,15 @@ So let's try to implement this flow:
 
 ![ContractTesting](doc/ContractTesting.png)
 
+* [1) Consumer defines the "contract" with the Provider](#1-consumer-defines-the-contract-with-the-provider)
+* [2) Consumer tests the "contract" using a provider mock](#2-consumer-tests-the-contract-using-a-provider-mock)
+* [3) Consumer publishes the "contract"](#3-consumer-publishes-the-contract)
+* [4) Provider tests the "contract" using a consumer mock](#4-provider-tests-the-contract-using-a-consumer-mock)
+* [5) Provider verifies or refutes the "contract" publishing the results of the test](#5-provider-verifies-or-refutes-the-contract-publishing-the-results-of-the-test)
+* [6) Consumer should only be deployed if the "contract" is verified](#6-consumer-should-only-be-deployed-if-the-contract-is-verified)
+* [7) Provider should only be deployed if the "contract" is verified](#7-provider-should-only-be-deployed-if-the-contract-is-verified)
+* [Implementation Details](#implementation-details)
+
 ## 1) Consumer defines the "contract" with the Provider
 
 For the "Sample API Client" we will use [Kotlin](https://kotlinlang.org/) and [Ktor client](https://ktor.io/docs/create-client.html).
