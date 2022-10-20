@@ -33,6 +33,8 @@ dependencies {
     testImplementation("io.projectreactor:reactor-test")
 
     testImplementation("au.com.dius.pact.provider:junit5spring:4.3.15")
+
+    testImplementation("com.ninja-squad:springmockk:3.1.1")
 }
 
 kotlin {

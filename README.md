@@ -70,16 +70,16 @@ For simplicity we use fixed JSON expectations but in a real example you may use 
 For example the request can be specified as:
 ```kotlin 
   .body(PactDslJsonBody()
-    .stringMatcher("name", "\\w+", "Foo", "Bar")
-    .decimalType("value", 123.45, 234.56)
-    .localDate("date", "yyyy-MM-dd", LocalDate.of(2022, 10, 13), LocalDate.of(2022, 12, 31))
+    .stringMatcher("name", "\\w+", "Foo")
+    .decimalType("value", 123.45)
+    .localDate("date", "yyyy-MM-dd", LocalDate.of(2022, 10, 13))
   )
 ```
 
 And the response:
 ```kotlin
   .body(PactDslJsonBody()
-    .integerType("id", 123, 234, 345, 456)
+    .integerType("id", 123)
   )
 ```
 
@@ -200,7 +200,7 @@ OK
 
 ## 4) Provider tests the "contract" using a consumer mock
 
-TODO
+
 
 ## 5) Provider verifies or refutes the "contract" publishing the results of the test
 
