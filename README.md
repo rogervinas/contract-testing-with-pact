@@ -23,6 +23,7 @@ So let's try to implement this flow:
 * [5) Provider verifies or refutes the "contract"](#5-provider-verifies-or-refutes-the-contract)
 * [6+7) Deploy only when the "contract" is verified](#67-deploy-only-when-the-contract-has-been-verified)
 * [Implementation Details](#implementation-details)
+* [Want to know more?](#want-to-know-more)
 
 ## 1) Consumer defines the "contract" with the Provider
 
@@ -649,3 +650,10 @@ ALso [Github Actions CI](.github/workflows/ci.yml) is enabled for this repo and 
   * Will run `./gradlew canIDeploy` that will connect to the local PactBroker and be successful if provider has verified the "contract".
 * Stop PactBroker
   * Will run `docker compose down` to stop the local PactBroker.
+
+# Want to know more?
+
+Some interesting documentation at [Pact](https://docs.pact.io), including:
+* [Pact Workshops - from 0 to Pact in ~2 hours](https://docs.pact.io/implementation_guides/workshops#pact-workshops---from-0-to-pact-in-2-hours) - hands-on labs for Ruby, JS, Golang, JVM, Android, .NET and CI/CD
+* [Pact Broker Docs](https://docs.pact.io/pact_broker) - including [Pact Broker Client CLI](https://docs.pact.io/pact_broker/client_cli) and how to setup [Pact Broker Webhooks](https://docs.pact.io/pact_broker/webhooks) to trigger builds every time a pact is changed, published or verified.
+
