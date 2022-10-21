@@ -233,7 +233,7 @@ class SampleApiKtorClient(private val serverUrl: String) : SampleApiClient {
 1. Tests will be executed against a provider mock.
 2. The "contract" will be generated locally under `build/pacts`. We can generate them in another directory using `@PactDirectory` annotation or `pact.rootDir` system property.
 
-You can check the "contract" generated locally in `build/pacts/Sample API Client-Sample API Server.json` file.
+You can check the "contract" generated locally in `build/pacts/Sample API Client-Sample API Server.json`.
 
 ## 3) Consumer publishes the "contract"
 
