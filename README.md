@@ -563,7 +563,7 @@ cd ./sample-api-server
 
 ## 6+7) Deploy only when the "contract" has been verified
 
-Both for the consumer and the provider we can execute `canIDeploy` gradle task will check if the "contract" has been verified in PactBroker, failing if not:
+Both for the consumer and the provider we can execute `canIDeploy` gradle task that will check if the "contract" has been verified in PactBroker, failing if not:
 
 * No contract published ❌
 ```shell
