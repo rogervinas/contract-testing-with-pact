@@ -237,11 +237,11 @@ You can check the "contract" generated locally in `build/pacts/Sample API Client
 
 ## 3) Consumer publishes the "contract"
 
-The consumer "contract" is now generated locally, but it should be published to a [Pact Broker](https://docs.pact.io/pact_broker), so it can be shared with the provider.
+The consumer "contract" is now generated locally, but it should be published to a [PactBroker](https://docs.pact.io/pact_broker), so it can be shared with the provider.
 
 To test it locally:
 
-1. Start a local instance of [Pact Broker](https://docs.pact.io/pact_broker) with a sqlite database:
+1. Start a local instance of [PactBroker](https://docs.pact.io/pact_broker) with a sqlite database:
 ```shell
 docker compose up -d
 ```
@@ -307,7 +307,7 @@ class SampleApiControllerContractTest {
 Note that:
 * `@WebFluxTest` is a standard Spring Boot "slice test" where **only** components needed to test `SampleApiController` will be started.
 * A `WebTestClient` is the standard way to test controllers on a `@WebFluxTest`, but in this case we will not use it directly, we will just pass it to the `PactVerificationContext`.
-* Just temporarily we use `@PactFolder` annotation to  **read the "contract" from the local directory** where `sample-api-client` has generated it. No need for a [Pact Broker](https://docs.pact.io/pact_broker) yet.
+* Just temporarily we use `@PactFolder` annotation to  **read the "contract" from the local directory** where `sample-api-client` has generated it. No need for a [PactBroker](https://docs.pact.io/pact_broker) yet.
 * We use `@Provider` annotation to specify that we are executing tests for the "Sample API Server" provider.
 * We have to create as many methods annotated with `@State` as states the "contract" expects. We leave them empty for now but we will have to properly set the state there.
 * Finally `PactVerificationSpringProvider` junit5 extension and `pactVerificationTestTemplate` method annotated with junit5's `@TestTemplate` will create tests dynamically following the "contract".
@@ -407,7 +407,7 @@ Note that:
 
 Now if we execute the test everything should be 🟩
 
-Finally, in a real scenario we will use `@PactBroker` instead of `@PactFolder` in order to retrieve the "contract" from a [Pact Broker](https://docs.pact.io/pact_broker):
+Finally, in a real scenario we will use `@PactBroker` instead of `@PactFolder` in order to retrieve the "contract" from a [PactBroker](https://docs.pact.io/pact_broker):
 ```kotlin
 @WebFluxTest(controllers = [SampleApiController::class])
 @Provider("Sample API Server")
@@ -418,7 +418,7 @@ class SampleApiControllerContractTest {
 }
 ```
 Note that:
-* [Pact Broker](https://docs.pact.io/pact_broker) url can be set directly on the `@PactBroker(url=xxx)` annotation or via the `pactbroker.url` system property. 
+* [PactBroker](https://docs.pact.io/pact_broker) url can be set directly on the `@PactBroker(url=xxx)` annotation or via the `pactbroker.url` system property. 
 
 You can review the final implementation in [SampleApiControllerContractTest](sample-api-server/src/test/kotlin/com/rogervinas/sample/api/server/SampleApiControllerContractTest.kt).
 
@@ -518,7 +518,7 @@ You can review the final implementation in [SampleApiServerContractTest](sample-
 
 ## 5) Provider verifies or refutes the "contract"
 
-To publish the result of the contract tests automatically to a [Pact Broker](https://docs.pact.io/pact_broker) we need to:
+To publish the result of the contract tests automatically to a [PactBroker](https://docs.pact.io/pact_broker) we need to:
 * Use `@PactBroker` annotation.
 * Set PactBroker url directly on `@PactBroker(url=xxx)` annotation or via `pactbroker.url` system property.
 * Set system property `pact.verifier.publishResults=true`.
@@ -526,7 +526,7 @@ To publish the result of the contract tests automatically to a [Pact Broker](htt
 
 To test it locally:
 
-1. Start a local instance of [Pact Broker](https://docs.pact.io/pact_broker) with a sqlite database:
+1. Start a local instance of [PactBroker](https://docs.pact.io/pact_broker) with a sqlite database:
 ```shell
 docker compose up -d
 ```
@@ -627,7 +627,7 @@ Some, I hope useful, implementation details of this PoC:
     * We can use it in test tasks' `systemProperties["pactbroker.url"]` used by `@PactBroker` annotation as default.
   * Test tasks':
     * `systemProperties["pact.provider.version"] = version` to specify the provider version (it does not get it automatically from the gradle project, like it does for the consumer 🤷).
-    * `systemProperties["pact.verifier.publishResults"] = "true"` to always publish results back to the [Pact Broker](https://docs.pact.io/pact_broker) (in a real example we would disable it locally and enable only in CI though).
+    * `systemProperties["pact.verifier.publishResults"] = "true"` to always publish results back to the [PactBroker](https://docs.pact.io/pact_broker) (in a real example we would disable it locally and enable only in CI though).
 
 ALso [Github Actions CI](.github/workflows/ci.yml) is enabled for this repo and executes a complete flow (you can execute it locally too):
 * Start PactBroker
