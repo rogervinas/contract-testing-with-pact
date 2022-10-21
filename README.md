@@ -19,7 +19,7 @@ So let's try to implement this flow:
 * [3) Consumer publishes the "contract"](#3-consumer-publishes-the-contract)
 * [4) Provider tests the "contract" using a consumer mock](#4-provider-tests-the-contract-using-a-consumer-mock)
 * [5) Provider verifies or refutes the "contract" publishing the results of the test](#5-provider-verifies-or-refutes-the-contract-publishing-the-results-of-the-test)
-* [6) + 7) Consumer/Provider should only be deployed if the "contract" is verified](#6--7-consumerprovider-should-only-be-deployed-if-the-contract-is-verified)
+* [6+7) Consumer/Provider should only be deployed if the "contract" is verified](#67-consumerprovider-should-only-be-deployed-if-the-contract-is-verified)
 * [Implementation Details](#implementation-details)
 
 ## 1) Consumer defines the "contract" with the Provider
@@ -554,7 +554,7 @@ cd ./sample-api-server
 7. Go back to http://localhost:9292 and see not our contract **verified** (in green):
 ![PactBroker-4](doc/PactBroker-4.gif)
 
-## 6) + 7) Consumer/Provider should only be deployed if the "contract" is verified
+## 6+7) Consumer/Provider should only be deployed if the "contract" is verified
 
 Both for the consumer and the provider we can execute `canIDeploy` gradle task will check if the "contract" has been verified in PactBroker, failing if not:
 
