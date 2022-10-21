@@ -580,7 +580,8 @@ Computer says no ¯\_(ツ)_/¯ Request to path '/matrix/...' failed with respons
 > Task :canIDeploy FAILED
 Computer says no ¯\_(ツ)_/¯
 
-There is no verified pact between version 1.0 of Sample API Client and the latest version of Sample API Server (no such version exists)
+There is no verified pact between version 1.0 of Sample API Client 
+and the latest version of Sample API Server (no such version exists)
 ```
 
 * Provider has refuted the contract ❌
@@ -590,7 +591,8 @@ There is no verified pact between version 1.0 of Sample API Client and the lates
 > Task :canIDeploy FAILED
 Computer says no ¯\_(ツ)_/¯
 
-The verification for the pact between version 1.0 of Sample API Client and the latest version of Sample API Server (1.0) failed
+The verification for the pact between version 1.0 of Sample API Client 
+and the latest version of Sample API Server (1.0) failed
 ```
 
 * Provider has verified the contract ✅
