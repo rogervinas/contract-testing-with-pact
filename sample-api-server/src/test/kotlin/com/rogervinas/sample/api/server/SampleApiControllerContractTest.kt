@@ -1,36 +1,36 @@
 package com.rogervinas.sample.api.server
 
-import au.com.dius.pact.provider.junit5.HttpTestTarget
 import au.com.dius.pact.provider.junit5.PactVerificationContext
 import au.com.dius.pact.provider.junitsupport.Provider
 import au.com.dius.pact.provider.junitsupport.State
 import au.com.dius.pact.provider.junitsupport.loader.PactBroker
 import au.com.dius.pact.provider.spring.junit5.PactVerificationSpringProvider
+import au.com.dius.pact.provider.spring.junit5.WebTestClientTarget
+import com.ninjasquad.springmockk.MockkBean
+import io.mockk.every
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.TestTemplate
 import org.junit.jupiter.api.extension.ExtendWith
 import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.boot.test.context.SpringBootTest
-import org.springframework.boot.test.context.SpringBootTest.WebEnvironment.RANDOM_PORT
-import org.springframework.boot.test.web.server.LocalServerPort
+import org.springframework.boot.test.autoconfigure.web.reactive.WebFluxTest
+import org.springframework.test.web.reactive.server.WebTestClient
 import java.time.LocalDate
 
-
-@SpringBootTest(webEnvironment = RANDOM_PORT)
+@WebFluxTest(controllers = [SampleApiController::class])
 @Provider("Sample API Server")
 @PactBroker
 @ExtendWith(PactVerificationSpringProvider::class)
-class SampleApiServerContractTest {
-
-  @LocalServerPort
-  private var port = 0
+class SampleApiControllerContractTest {
 
   @Autowired
+  private lateinit var webTestClient: WebTestClient
+
+  @MockkBean
   private lateinit var repository: SampleRepository
 
   @BeforeEach
   fun beforeEach(context: PactVerificationContext) {
-    context.target = HttpTestTarget("localhost", port)
+    context.target = WebTestClientTarget(webTestClient)
   }
 
   @TestTemplate
@@ -40,12 +40,12 @@ class SampleApiServerContractTest {
 
   @State("Initial State")
   fun `initial state`() {
-    repository.reset(123)
+    every { repository.save(any()) } returns SampleThingId(123)
+    every { repository.get(any()) } returns null
   }
 
   @State("Thing 123 exists")
   fun `thing 123 exists`() {
-    repository.reset(123)
-    repository.save(SampleThing("Foo", 123.45, LocalDate.of(2022, 10, 13)))
+    every { repository.get(SampleThingId(123)) } returns SampleThing("Foo", 123.45, LocalDate.of(2022, 10, 13))
   }
 }

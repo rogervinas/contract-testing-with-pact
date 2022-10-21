@@ -11,7 +11,7 @@ plugins {
 
 version = "1.0"
 
-project.extra["pactbroker.url"] = "http://localhost:9292"
+project.extra["pactbroker.url"] = project.properties["pactbroker.url"] ?: "http://localhost:9292"
 project.extra["pacticipant"] = "Sample API Client"
 project.extra["pacticipantVersion"] = version
 
