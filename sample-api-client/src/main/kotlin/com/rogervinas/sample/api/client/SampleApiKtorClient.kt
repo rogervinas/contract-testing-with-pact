@@ -28,7 +28,7 @@ class SampleApiKtorClient(private val serverUrl: String) : SampleApiClient {
       contentType(ContentType.Application.Json)
       setBody(thing)
     }
-    return when(response.status) {
+    return when (response.status) {
       HttpStatusCode.Created -> response.body<SampleThingId>()
       else -> null
     }
@@ -36,7 +36,7 @@ class SampleApiKtorClient(private val serverUrl: String) : SampleApiClient {
 
   override suspend fun get(thingId: SampleThingId): SampleThing? {
     val response = client.get("$serverUrl/thing/${thingId.id}")
-    return when(response.status) {
+    return when (response.status) {
       HttpStatusCode.OK -> response.body<SampleThing>()
       else -> null
     }

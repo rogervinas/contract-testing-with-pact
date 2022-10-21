@@ -30,10 +30,9 @@ class SampleApiController(private val repository: SampleRepository) {
   suspend fun create(@RequestBody thing: SampleThing) = repository.save(thing)
 
   @GetMapping("/thing/{id}", produces = [APPLICATION_JSON_VALUE])
-  suspend fun get(@PathVariable("id") id: Int): ResponseEntity<SampleThing> {
-    return when (val thing = repository.get(SampleThingId(id))) {
+  suspend fun get(@PathVariable("id") id: Int) =
+    when (val thing = repository.get(SampleThingId(id))) {
       null -> ResponseEntity.notFound().build()
       else -> ResponseEntity.ok(thing)
     }
-  }
 }
