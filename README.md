@@ -629,7 +629,7 @@ Some, I hope useful, implementation details of this PoC:
     * `systemProperties["pact.provider.version"] = version` to specify the provider version (it does not get it automatically from the gradle project, like it does for the consumer 🤷).
     * `systemProperties["pact.verifier.publishResults"] = "true"` to always publish results back to the [Pact Broker](https://docs.pact.io/pact_broker) (in a real example we would disable it locally and enable only in CI though).
 
-Github Actions CI is configured to execute a complete flow (you can execute it locally too):
+ALso [Github Actions CI](.github/workflows/ci.yml) is enabled for this repo and executes a complete flow (you can execute it locally too):
 * Start PactBroker
   * Will run `docker compose up -d` to start a local PactBroker.
 * Sample API Client check
