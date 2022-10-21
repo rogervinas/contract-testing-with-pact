@@ -403,7 +403,7 @@ Note that:
   * `SampleRepository` mock will return `null` whenever `get` is called with any `SampleThingId` because it is supposed to be empty.
   * `SampleRepository` mock will return `SampleThingId(123)` whenever `save` is called with any `SampleThing` to simulate saving it.
 * In the state "Thing 123 exists":
-  * `SampleRepository` mock will return `null` whenever `get` is called with `SampleThingId(123)` because is supposed to be saved there.
+  * `SampleRepository` mock will return `null` whenever `get` is called with `SampleThingId(123)` because is supposed to be stored there.
 
 Now if we execute the test everything should be 🟩
 
