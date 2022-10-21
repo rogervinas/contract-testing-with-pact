@@ -471,7 +471,7 @@ class SampleApiServerContractTest {
 
 Finally, we only need to set the expected state using the `@State` annotated methods. How we do that will be different on each case. For example if we are using a real database that would mean to insert/delete rows from a table, etc.
 
-Just for this PoC we can cheat a little and implement our in-mem `SampleRepository` this way with a convenient `reset` method:
+Just for this PoC we can cheat a little and implement an in-mem `SampleRepository` this way with a convenient `reset` method:
 ```kotlin
 @Repository
 class SampleRepository {
@@ -522,7 +522,7 @@ To publish the result of the contract tests automatically to a [Pact Broker](htt
 * Use `@PactBroker` annotation.
 * Set PactBroker url directly on `@PactBroker(url=xxx)` annotation or via `pactbroker.url` system property.
 * Set system property `pact.verifier.publishResults=true`.
-* Set system property `pact.provider.version` (we can use same version as our gradle project).
+* Set system property `pact.provider.version` (we can use same version as the gradle project).
 
 To test it locally:
 
@@ -531,7 +531,7 @@ To test it locally:
 docker compose up -d
 ```
 
-2. Publish our consumer "contract" using pact gradle plugin:
+2. Publish the consumer "contract" using pact gradle plugin:
 ```shell
 cd ./sample-api-client
 ./gradlew pactPublish
