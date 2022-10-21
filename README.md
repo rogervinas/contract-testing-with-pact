@@ -307,7 +307,7 @@ class SampleApiControllerContractTest {
 Note that:
 * `@WebFluxTest` is a standard Spring Boot "slice test" where **only** components needed to test `SampleApiController` will be started.
 * A `WebTestClient` is the standard way to test controllers on a `@WebFluxTest`, but in this case we will not use it directly, we will just pass it to the `PactVerificationContext`.
-* In this first step we will read the "contract" from the local directory where `sample-api-client` has generated it, so we use `@PactFolder` annotation.
+* In this first step **we will read the "contract" from the local directory** where `sample-api-client` has generated it, so we use `@PactFolder` annotation.
 * We use `@Provider` annotation to specify that we are executing tests for the "Sample API Server" provider.
 * We have to provide as many methods annotated with `@State` as states the "contract" expects. We leave them empty for now but we will have to properly set the state there.
 * Finally `PactVerificationSpringProvider` junit5 extension and `pactVerificationTestTemplate` method annotated with junit5's `@TestTemplate` will create tests dynamically following the "contract".
