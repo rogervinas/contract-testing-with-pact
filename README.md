@@ -26,7 +26,7 @@ So let's try to implement this flow:
 
 For the "Sample API Client" we will use [Kotlin](https://kotlinlang.org/) and [Ktor client](https://ktor.io/docs/create-client.html).
 
-To define the `POST /thing` endpoint we specify the following "pact":
+To define `POST /thing` endpoint we specify the following "pact":
 
 ```kotlin
 @ExtendWith(PactConsumerTestExt::class)
@@ -64,25 +64,25 @@ class SampleApiClientContractTest {
 }
 ```
 
-For simplicity we use fixed JSON expectations but in a real example you may use [PactDslJsonBody DSL](https://docs.pact.io/implementation_guides/jvm/consumer#building-json-bodies-with-pactdsljsonbody-dsl) which allows to specify regex and type matchers to each field:
+As you see we can use fixed JSON expectations, but we can use also [PactDslJsonBody DSL](https://docs.pact.io/implementation_guides/jvm/consumer#building-json-bodies-with-pactdsljsonbody-dsl) which allows us to specify regex and type matchers to each field.
 
 For example the request can be specified as:
 ```kotlin 
-  .body(PactDslJsonBody()
-    .stringMatcher("name", "\\w+", "Foo")
-    .decimalType("value", 123.45)
-    .localDate("date", "yyyy-MM-dd", LocalDate.of(2022, 10, 13))
-  )
+.body(PactDslJsonBody()
+  .stringMatcher("name", "\\w+", "Foo")
+  .decimalType("value", 123.45)
+  .localDate("date", "yyyy-MM-dd", LocalDate.of(2022, 10, 13))
+)
 ```
 
 And the response:
 ```kotlin
-  .body(PactDslJsonBody()
-    .integerType("id", 123)
-  )
+.body(PactDslJsonBody()
+  .integerType("id", 123)
+)
 ```
 
-To define the  `GET /thing/{id}` endpoint we will specify two "pacts":
+To define `GET /thing/{id}` endpoint we will specify two "pacts":
 
 * One for the case "thing exists":
 ```kotlin
@@ -126,7 +126,36 @@ return builder
 
 ## 2) Consumer tests the "contract" using a provider mock
 
-Now we create tests for the three pacts defined in the previous step:
+If we want to focus on test first we need an empty implementation of the client just to make it compile:
+```kotlin
+data class SampleThing(
+  val name: String,
+  val value: Double,
+  @JsonFormat(pattern = "yyyy-MM-dd") val date: LocalDate
+)
+
+data class SampleThingId(
+  val id: Int
+)
+
+interface SampleApiClient {
+  suspend fun create(thing: SampleThing): SampleThingId?
+  suspend fun get(thingId: SampleThingId): SampleThing?
+}
+
+class SampleApiKtorClient(private val serverUrl: String) : SampleApiClient {
+  
+  override suspend fun create(thing: SampleThing): SampleThingId? {
+    TODO("Not yet implemented")
+  }
+
+  override suspend fun get(thingId: SampleThingId): SampleThing? {
+    TODO("Not yet implemented")
+  }
+}
+```
+
+Now we create tests for the three "pacts" defined in the previous step:
 
 ```kotlin
 @Test
@@ -153,7 +182,7 @@ fun `should get thing 123 when it exists`(mockServer: MockServer) {
 
 @Test
 @PactTestFor(providerName = "Sample API Server", pactMethod = "getNonExistingThing", providerType = SYNCH)
-fun `should not get thing 123 when it does not exist`(mockServer: MockServer) { 
+fun `should not get thing 123 when it does not exist`(mockServer: MockServer) {
   val client = SampleApiKtorClient(mockServer.getUrl())
   val thing = runBlocking {
     client.get(SampleThingId(123))
@@ -164,15 +193,47 @@ fun `should not get thing 123 when it does not exist`(mockServer: MockServer) {
 
 Note that:
 * `pactMethod` should match the name of the method annotated with `@Pact`.
+* We pass to the client the `MockServer`'s `url`.
 * Just for documentation, we specify the provider as a synchronous provider (HTTP)
 
-If now we execute tests on `SampleApiClientContractTest`:
+Once we have a final implementation of the client wrapping a [Ktor client](https://ktor.io/docs/create-client.html):
+```kotlin
+class SampleApiKtorClient(private val serverUrl: String) : SampleApiClient {
+
+  private val client = HttpClient(CIO) {
+    install(ContentNegotiation) {
+      jackson {
+        registerModule(JavaTimeModule())
+      }
+    }
+  }
+
+  override suspend fun create(thing: SampleThing): SampleThingId? {
+    val response = client.post("$serverUrl/thing") {
+      contentType(ContentType.Application.Json)
+      setBody(thing)
+    }
+    return when(response.status) {
+      HttpStatusCode.Created -> response.body<SampleThingId>()
+      else -> null
+    }
+  }
+
+  override suspend fun get(thingId: SampleThingId): SampleThing? {
+    val response = client.get("$serverUrl/thing/${thingId.id}")
+    return when(response.status) {
+      HttpStatusCode.OK -> response.body<SampleThing>()
+      else -> null
+    }
+  }
+}
+```
+
+If we execute tests on `SampleApiClientContractTest`:
 1. Tests will be executed against a provider mock.
 2. The "contract" will be generated locally under `build/pacts`. We can generate them in another directory using `@PactDirectory` annotation or `pact.rootDir` system property.
 
-You can check the "contract" in `build/pacts/Sample API Client-Sample API Server.json` file.
-
-TODO implement the client!
+You can check the "contract" generated in `build/pacts/Sample API Client-Sample API Server.json` file.
 
 ## 3) Consumer publishes the "contract"
 
@@ -188,7 +249,7 @@ docker compose up -d
 2. Go to http://localhost:9292, we will see a "contract" example that comes by default:
 ![PactBroker-1](doc/PactBroker-1.png)
 
-3. Publish our consumer "contract" using pact gradle plugin:
+3. Publish the consumer "contract" using `pactPublish` gradle task:
 ```shell
 cd ./sample-api-client
 ./gradlew pactPublish
@@ -198,10 +259,12 @@ Publishing 'Sample API Client-Sample API Server.json' ...
 OK
 ```
 
-4. Go back to http://localhost:9292, we will see our consumer "contract":
+4. Go back to http://localhost:9292, we will see the consumer "contract":
 ![PactBroker-2](doc/PactBroker-2.gif)
 
 ## 4) Provider tests the "contract" using a consumer mock
+
+For the "Sample API Server" we will use [Kotlin](https://kotlinlang.org/) and [Spring Boot](https://spring.io/projects/spring-boot).
 
 Here we have two options to test the "contract":
 * Test it against **only the API layer** using a [WebFluxTest](https://docs.spring.io/spring-boot/docs/current/reference/htmlsingle/#features.testing.spring-boot-applications.spring-webflux-tests).
@@ -232,18 +295,21 @@ class SampleApiControllerContractTest {
   
   @State("Initial State")
   fun `initial state`() {
+      // TODO
   }
 
   @State("Thing 123 exists")
   fun `thing 123 exists`() {
+      // TODO
   }  
 }
 ```
-* `WebFluxTest` is a standard Spring Boot "slice test" where **only** those components needed to test `SampleApiController` will be started.
-* A `WebTestClient` is the standard way to test controllers on a `WebFluxTest`, but in this case we will not use it directly, we will just pass it to the `PactVerificationContext` for it to use.
+Note that:
+* `WebFluxTest` is a standard Spring Boot "slice test" where **only** components needed to test `SampleApiController` will be started.
+* A `WebTestClient` is the standard way to test controllers on a `WebFluxTest`, but in this case we will not use it directly, we will just pass it to the `PactVerificationContext`.
 * In this first step we will read the "contract" from the local directory where `sample-api-client` has generated it, so we use `PactFolder` annotation.
 * We use `Provider` annotation to specify that we are executing tests for the "Sample API Server" provider.
-* We have to provide as many methods annotated with `State` as states the "contract" expects. We leave them empty for now but we will have to properly set the state there. 
+* We have to provide as many methods annotated with `State` as states the "contract" expects. We leave them empty for now but we will have to properly set the state there.
 * Finally `PactVerificationSpringProvider` junit5 extension and `pactVerificationTestTemplate` method annotated with junit5's `TestTemplate` will create tests dynamically following the "contract".
 
 If we create an empty `SampleAPiController` to make this test compile:
@@ -272,9 +338,9 @@ SampleApiControllerContractTest > Sample API Client - Get Thing 123 when it exis
   1.2) body: $ Actual map is missing the following keys: date, name, value
 ```
 
-So it turns out that with an empty controller we pass one of the tests 😜
+Turns out that with an empty controller we pass one of the tests 😜
 
-If we end up with this final implementation for the controller ...
+Once we have a final implementation of the controller ...
 ```kotlin
 @RestController
 class SampleApiController(private val repository: SampleRepository) {
@@ -329,16 +395,17 @@ class SampleApiControllerContractTest {
   }
 }
 ```
+Note that:
 * We mock a `SampleRepository` because `SampleApiController` needs one.
 * In the state "Initial State":
-  * `SampleRepository` mock will return `null` whenever `get` is called with any `SampleThingId` because the repository is supposed to be empty.
+  * `SampleRepository` mock will return `null` whenever `get` is called with any `SampleThingId` because it is supposed to be empty.
   * `SampleRepository` mock will return `SampleThingId(123)` whenever `save` is called with any `SampleThing` to simulate saving it.
 * In the state "Thing 123 exists":
-  * `SampleRepository` mock will return `null` whenever `get` is called with any `SampleThingId` because the repository is supposed to be empty.
+  * `SampleRepository` mock will return `null` whenever `get` is called with `SampleThingId(123)` because is supposed to be saved there.
 
 Now if we execute the test everything should be 🟩
 
-Finally, in a real scenario we will use `PactBroker` instead of `PactFolder` in order to retrieve the "contract" from a PactBroker.
+Finally, in a real scenario we will use `PactBroker` instead of `PactFolder` in order to retrieve the "contract" from a [Pact Broker](https://docs.pact.io/pact_broker):
 ```kotlin
 @WebFluxTest(controllers = [SampleApiController::class])
 @Provider("Sample API Server")
@@ -348,13 +415,14 @@ class SampleApiControllerContractTest {
    // ... 
 }
 ```
+Note that:
 * PactBroker url can be set directly on the `@PactBroker(url=xxx)` annotation or via the `pactbroker.url` system property. 
 
 You can review the final implementation in [SampleApiControllerContractTest](sample-api-server/src/test/kotlin/com/rogervinas/sample/api/server/SampleApiControllerContractTest.kt).
 
 ### Using SpringBootTest
 
-We can also test the "contract" against the whole application using a SpringBootTest:
+We can also test the "contract" against the whole application using a [SpringBootTest](https://docs.spring.io/spring-boot/docs/current/reference/htmlsingle/#features.testing):
 ```kotlin
 @SpringBootTest(webEnvironment = DEFINED_PORT)
 @Provider("Sample API Server")
@@ -445,7 +513,7 @@ You can review the final implementation in [SampleApiServerContractTest](sample-
 
 ## 5) Provider verifies or refutes the "contract" publishing the results of the test
 
-To publish the result of the contract tests automatically to a PactBroker we need to:
+To publish the result of the contract tests automatically to a [Pact Broker](https://docs.pact.io/pact_broker) we need to:
 * Use `@PactBroker` annotation.
 * Set PactBroker url directly on `@PactBroker(url=xxx)` annotation or via `pactbroker.url` system property.
 * Set system property `pact.verifier.publishResults=true`.
@@ -530,8 +598,43 @@ All required verification results are published and successful
 
 ## Implementation Details
 
-* TODO Pact gradle plugin id("au.com.dius.pact") version "4.3.15"
-  * TODO properties set for the consumer
-  * TODO properties set for the provider
-* TODO Pact dependencies for the consumer au.com.dius.pact.consumer:junit5:4.3.15
-* TODO Pact dependencies for the provider au.com.dius.pact.provider:junit5spring:4.3.15
+Some, I hope useful, implementation details of this PoC:
+
+* We use [au.com.dius.pact](https://plugins.gradle.org/plugin/au.com.dius.pact) gradle plugin both for the consumer and the provider.
+* We use [au.com.dius.pact.consumer:junit5](https://mvnrepository.com/artifact/au.com.dius.pact.consumer/junit5) dependency for the consumer.
+* We use [au.com.dius.pact.provider:junit5spring](https://mvnrepository.com/artifact/au.com.dius.pact.provider/junit5spring) dependency for the provider.
+* All [these system properties are available](https://docs.pact.io/implementation_guides/jvm/docs/system-properties).
+* Properties used in this PoC for the consumer:
+  * `project.extra["pacticipant"] = "Sample API Client"` and `project.extra["pacticipantVersion"] = version` so we do not need to pass them everytime in the `canIDeploy` task. 
+  * Test tasks' `systemProperties["pact.writer.overwrite"] = true` so the contract is always overwritten.
+  * `project.extra["pactbroker.url"] = project.properties["pactbroker.url"] ?: "http://localhost:9292"` so:
+    * We can override it if needed (using `./gradlew -Ppact.broker.url=http://some-production-pact-broker`).
+    * We can use the same in the `publish` and `broker` sections.
+* Properties used in this PoC for the provider:
+  * `project.extra["pacticipant"] = "Sample API Server"` and `project.extra["pacticipantVersion"] = version` so we do not need to pass them everytime in the `canIDeploy` task.
+  * `project.extra["pactbroker.url"] = project.properties["pactbroker.url"] ?: "http://localhost:9292"` so:
+    * We can override it if needed (using `./gradlew -Ppact.broker.url=http://some-production-pact-broker`).
+    * We can use it in the `broker` section.
+    * We can use it in test tasks' `systemProperties["pactbroker.url"]` used by `@PactBroker` annotation as default.
+  * Test tasks':
+    * `systemProperties["pact.provider.version"] = version` to specify the provider version (it does not get it automatically from the gradle project, like it does for the consumer 🤷).
+    * `systemProperties["pact.verifier.publishResults"] = "true"` to always publish results back to the [Pact Broker](https://docs.pact.io/pact_broker) (in a real example we would disable it locally and enable only in CI though).
+
+Github Actions CI is configured to execute a complete flow (you can execute it locally too):
+* Start PactBroker
+  * Will run `docker compose up -d` to start a local PactBroker.
+* Sample API Client check
+  * Will run `./gradlew check` to execute tests and generate the "contract" locally.
+* Sample API Client Pact publish
+  * Will run `./gradlew pactPublish` to publish the "contract" to the local PactBroker.
+* Sample API Server check
+  * Will run `./gradlew check` that:
+    * Will download the "contract" from the local PactBroker.
+    * Will execute tests accordingly.
+    * Will publish the result of the tests back to the local PactBroker.
+* Sample API Client can deploy?
+  * Will run `./gradlew canIDeploy` that will connect to the local PactBroker and be successful if provider has verified the "contract".
+* Sample API Server can deploy?
+  * Will run `./gradlew canIDeploy` that will connect to the local PactBroker and be successful if provider has verified the "contract".
+* Stop PactBroker
+  * Will run `docker compose down` to stop the local PactBroker.
