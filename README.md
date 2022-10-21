@@ -196,7 +196,7 @@ Note that:
 * We pass to the client the `MockServer`'s `url`.
 * Just for documentation, we specify the provider as a synchronous provider (HTTP)
 
-Once we have a final implementation of the client wrapping a [Ktor client](https://ktor.io/docs/create-client.html):
+Once we have a final implementation of the client wrapping a [Ktor client](https://ktor.io/docs/create-client.html) ...
 ```kotlin
 class SampleApiKtorClient(private val serverUrl: String) : SampleApiClient {
 
@@ -229,7 +229,7 @@ class SampleApiKtorClient(private val serverUrl: String) : SampleApiClient {
 }
 ```
 
-If we execute tests on [SampleApiClientContractTest](sample-api-client/src/test/kotlin/com/rogervinas/sample/api/client/SampleApiClientContractTest.kt):
+... if we execute tests on [SampleApiClientContractTest](sample-api-client/src/test/kotlin/com/rogervinas/sample/api/client/SampleApiClientContractTest.kt):
 1. Tests will be executed against a provider mock.
 2. The "contract" will be generated locally under `build/pacts`. We can generate them in another directory using `@PactDirectory` annotation or `pact.rootDir` system property.
 
