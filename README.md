@@ -309,7 +309,7 @@ Note that:
 * A `WebTestClient` is the standard way to test controllers on a `@WebFluxTest`, but in this case we will not use it directly, we will just pass it to the `PactVerificationContext`.
 * Just temporarily we use `@PactFolder` annotation to  **read the "contract" from the local directory** where `sample-api-client` has generated it. No need for a [Pact Broker](https://docs.pact.io/pact_broker) yet.
 * We use `@Provider` annotation to specify that we are executing tests for the "Sample API Server" provider.
-* We have to provide as many methods annotated with `@State` as states the "contract" expects. We leave them empty for now but we will have to properly set the state there.
+* We have to create as many methods annotated with `@State` as states the "contract" expects. We leave them empty for now but we will have to properly set the state there.
 * Finally `PactVerificationSpringProvider` junit5 extension and `pactVerificationTestTemplate` method annotated with junit5's `@TestTemplate` will create tests dynamically following the "contract".
 
 If we create an empty `SampleApiController` to make this test compile:
