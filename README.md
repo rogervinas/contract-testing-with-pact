@@ -18,6 +18,8 @@ So let's try to implement this flow:
 * [2) Consumer tests the "contract" using a provider mock](#2-consumer-tests-the-contract-using-a-provider-mock)
 * [3) Consumer publishes the "contract"](#3-consumer-publishes-the-contract)
 * [4) Provider tests the "contract" using a consumer mock](#4-provider-tests-the-contract-using-a-consumer-mock)
+  * [Using @WebFluxTest](#using-webfluxtest)
+  * [Using @SpringBootTest](#using-springboottest)
 * [5) Provider verifies or refutes the "contract"](#5-provider-verifies-or-refutes-the-contract)
 * [6+7) Deploy only when the "contract" is verified](#67-deploy-only-when-the-contract-has-been-verified)
 * [Implementation Details](#implementation-details)
@@ -270,7 +272,7 @@ Here we have two options to test the "contract":
 * Test it against **only the API layer** using a [WebFluxTest](https://docs.spring.io/spring-boot/docs/current/reference/htmlsingle/#features.testing.spring-boot-applications.spring-webflux-tests).
 * Test it against **the whole Application** using a [SpringBootTest](https://docs.spring.io/spring-boot/docs/current/reference/htmlsingle/#features.testing).
 
-### Using WebFluxTest
+### Using @WebFluxTest
 
 We start with this:
 ```kotlin
@@ -422,7 +424,7 @@ Note that:
 
 You can review the final implementation in [SampleApiControllerContractTest](sample-api-server/src/test/kotlin/com/rogervinas/sample/api/server/SampleApiControllerContractTest.kt).
 
-### Using SpringBootTest
+### Using @SpringBootTest
 
 We can also test the "contract" against the whole application using a [SpringBootTest](https://docs.spring.io/spring-boot/docs/current/reference/htmlsingle/#features.testing):
 ```kotlin
