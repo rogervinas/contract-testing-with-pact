@@ -126,7 +126,7 @@ return builder
 
 ## 2) Consumer tests the "contract" using a provider mock
 
-If we want to focus on test first we need an empty implementation of the client just to make it compile:
+If we want to focus on "[test first](http://www.extremeprogramming.org/rules/testfirst.html)" we need an empty implementation of the client just to make it compile:
 ```kotlin
 data class SampleThing(
   val name: String,
