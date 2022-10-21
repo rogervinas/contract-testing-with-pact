@@ -192,7 +192,7 @@ fun `should not get thing 123 when it does not exist`(mockServer: MockServer) {
 ```
 
 Note that:
-* `pactMethod` should match the name of the method annotated with `@Pact`.
+* In `@PactTestFor` annotation `pactMethod` should match the name of the method annotated with `@Pact`.
 * We pass to the client the `MockServer`'s `url`.
 * Just for documentation, we specify the provider as a synchronous provider (HTTP)
 
