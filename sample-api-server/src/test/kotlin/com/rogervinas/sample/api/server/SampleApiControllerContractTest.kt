@@ -46,6 +46,8 @@ class SampleApiControllerContractTest {
 
   @State("Thing 123 exists")
   fun `thing 123 exists`() {
-    every { repository.get(SampleThingId(123)) } returns SampleThing("Foo", 123.45, LocalDate.of(2022, 10, 13))
+    every {
+      repository.get(SampleThingId(123))
+    } returns SampleThing("Foo", 123.45, LocalDate.of(2022, 10, 13))
   }
 }
