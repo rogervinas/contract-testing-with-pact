@@ -654,6 +654,14 @@ ALso [Github Actions CI](.github/workflows/ci.yml) is enabled for this repo and 
 # Want to know more?
 
 Some interesting documentation at [Pact](https://docs.pact.io), including:
-* [Pact Workshops - from 0 to Pact in ~2 hours](https://docs.pact.io/implementation_guides/workshops#pact-workshops---from-0-to-pact-in-2-hours) - hands-on labs for Ruby, JS, Golang, JVM, Android, .NET and CI/CD
-* [Pact Broker Docs](https://docs.pact.io/pact_broker) - including [Pact Broker Client CLI](https://docs.pact.io/pact_broker/client_cli) and how to setup [Pact Broker Webhooks](https://docs.pact.io/pact_broker/webhooks) to trigger builds every time a pact is changed, published or verified.
-
+* [Pact Workshops - from 0 to Pact in ~2 hours](https://docs.pact.io/implementation_guides/workshops#pact-workshops---from-0-to-pact-in-2-hours) - hands-on labs for:
+  * Ruby
+  * JS
+  * Golang
+  * JVM
+  * Android
+  * .NET
+  * CI/CD
+* [Pact Broker Docs](https://docs.pact.io/pact_broker) - including:
+  * [Pact Broker Client CLI](https://docs.pact.io/pact_broker/client_cli)
+  * [Pact Broker Webhooks](https://docs.pact.io/pact_broker/webhooks) to trigger builds every time a pact is changed, published or verified.
