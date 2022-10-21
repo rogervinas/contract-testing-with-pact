@@ -620,12 +620,12 @@ Some, I hope useful, implementation details of this PoC:
   * `project.extra["pacticipant"] = "Sample API Client"` and `project.extra["pacticipantVersion"] = version` so we do not need to pass them everytime in the `canIDeploy` task. 
   * Test tasks' `systemProperties["pact.writer.overwrite"] = true` so the contract is always overwritten.
   * `project.extra["pactbroker.url"] = project.properties["pactbroker.url"] ?: "http://localhost:9292"` so:
-    * We can override it if needed (using `./gradlew -Ppact.broker.url=http://some-production-pact-broker`).
+    * We can override it if needed (using `./gradlew -Ppactbroker.url=http://xxx`).
     * We can use the same in the `publish` and `broker` sections.
 * Properties used in this PoC for the provider:
   * `project.extra["pacticipant"] = "Sample API Server"` and `project.extra["pacticipantVersion"] = version` so we do not need to pass them everytime in the `canIDeploy` task.
   * `project.extra["pactbroker.url"] = project.properties["pactbroker.url"] ?: "http://localhost:9292"` so:
-    * We can override it if needed (using `./gradlew -Ppact.broker.url=http://some-production-pact-broker`).
+    * We can override it if needed (using `./gradlew -Ppactbroker.url=http://xxx`).
     * We can use it in the `broker` section.
     * We can use it in test tasks' `systemProperties["pactbroker.url"]` used by `@PactBroker` annotation as default.
   * Test tasks':
