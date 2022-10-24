@@ -66,24 +66,24 @@ class SampleApiClientContractTest {
   }
 }
 ```
-
-As you see we can use fixed JSON expectations, but we can use also [PactDslJsonBody DSL](https://docs.pact.io/implementation_guides/jvm/consumer#building-json-bodies-with-pactdsljsonbody-dsl) which allows us to specify regex and type matchers to each field.
-
-For example the request can be specified as:
-```kotlin 
-.body(PactDslJsonBody()
-  .stringMatcher("name", "\\w+", "Foo")
-  .decimalType("value", 123.45)
-  .localDate("date", "yyyy-MM-dd", LocalDate.of(2022, 10, 13))
-)
-```
-
-And the response:
-```kotlin
-.body(PactDslJsonBody()
-  .integerType("id", 123)
-)
-```
+Note that:
+* We use just a junit5 test with `PactConsumerTestExt` extension.
+* We are defining the "contract" and not defining test methods yet. We will create them in the next step.
+* In this first example we are using fixed JSON expectations, but we can use also [PactDslJsonBody DSL](https://docs.pact.io/implementation_guides/jvm/consumer#building-json-bodies-with-pactdsljsonbody-dsl) which allows us to specify regex and type matchers to each field:
+  * For example the request can be specified as:
+  ```kotlin 
+  .body(PactDslJsonBody()
+    .stringMatcher("name", "\\w+", "Foo")
+    .decimalType("value", 123.45)
+    .localDate("date", "yyyy-MM-dd", LocalDate.of(2022, 10, 13))
+  )
+  ```
+  * And the response:
+  ```kotlin
+  .body(PactDslJsonBody()
+    .integerType("id", 123)
+  )
+  ```
 
 To define `GET /thing/{id}` endpoint we will specify two "pacts":
 
@@ -196,7 +196,7 @@ fun `should not get thing 123 when it does not exist`(mockServer: MockServer) {
 
 Note that:
 * In `@PactTestFor` annotation `pactMethod` should match the name of the method annotated with `@Pact`.
-* We pass to the client the `MockServer`'s `url`.
+* We pass to the client the `MockServer`'s `url`. This MockServer will mock the provider based on the "contract", no need for us to configure it! ✨magic✨
 * Just for documentation, we specify the provider as a synchronous provider (HTTP)
 
 Once we have a final implementation of the client wrapping a [Ktor client](https://ktor.io/docs/create-client.html) ...
@@ -233,14 +233,12 @@ class SampleApiKtorClient(private val serverUrl: String) : SampleApiClient {
 ```
 
 ... if we execute tests on [SampleApiClientContractTest](sample-api-client/src/test/kotlin/com/rogervinas/sample/api/client/SampleApiClientContractTest.kt):
-1. Tests will be executed against a provider mock.
-2. The "contract" will be generated locally under `build/pacts`. We can generate them in another directory using `@PactDirectory` annotation or `pact.rootDir` system property.
-
-You can check the "contract" generated locally in `build/pacts/Sample API Client-Sample API Server.json`.
+1. Tests will be executed against a provider mock that will be configured to match the expectations of the "contract".
+2. The "contract" will be saved locally as `build/pacts/build/pacts/Sample API Client-Sample API Server.json`. We can generate it in another directory using `@PactDirectory` annotation or `pact.rootDir` system property.
 
 ## 3) Consumer publishes the "contract"
 
-The consumer "contract" is now generated locally, but it should be published to a [PactBroker](https://docs.pact.io/pact_broker), so it can be shared with the provider.
+The consumer "contract" is now saved locally as a JSON file, but it should be published to a [PactBroker](https://docs.pact.io/pact_broker), so it can be shared with the provider.
 
 To test it locally:
 
@@ -313,7 +311,7 @@ Note that:
 * Just temporarily we use `@PactFolder` annotation to  **read the "contract" from the local directory** where `sample-api-client` has generated it. No need for a [PactBroker](https://docs.pact.io/pact_broker) yet.
 * We use `@Provider` annotation to specify that we are executing tests for the "Sample API Server" provider.
 * We have to create as many methods annotated with `@State` as states the "contract" expects. We leave them empty for now but we will have to properly set the state there.
-* Finally `PactVerificationSpringProvider` junit5 extension and `pactVerificationTestTemplate` method annotated with junit5's `@TestTemplate` will create tests dynamically following the "contract".
+* Finally `PactVerificationSpringProvider` junit5 extension and `pactVerificationTestTemplate` method annotated with junit5's `@TestTemplate` will create tests dynamically following the "contract". Again ✨magic✨
 
 If we create an empty `SampleApiController` to make this test compile:
 ```kotlin
