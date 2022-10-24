@@ -68,7 +68,7 @@ class SampleApiClientContractTest {
 ```
 Note that:
 * We use just a junit5 test with `PactConsumerTestExt` extension.
-* We are defining the "contract" and not defining test methods yet. We will create them in the next step.
+* We are defining the "contract" and not defining test methods yet. We will create them in next step.
 * In this first example we are using fixed JSON expectations, but we can use also [PactDslJsonBody DSL](https://docs.pact.io/implementation_guides/jvm/consumer#building-json-bodies-with-pactdsljsonbody-dsl) which allows us to specify regex and type matchers to each field:
   * For example the request can be specified as:
   ```kotlin 
