@@ -1,6 +1,7 @@
 [![CI](https://github.com/rogervinas/contract-testing-with-pact/actions/workflows/ci.yml/badge.svg)](https://github.com/rogervinas/contract-testing-with-pact/actions/workflows/ci.yml)
 ![Java](https://img.shields.io/badge/Java-11-blue?labelColor=black)
 ![Kotlin](https://img.shields.io/badge/Kotlin-1.7.20-blue?labelColor=black)
+![SpringBoot](https://img.shields.io/badge/SpringBoot-2.7.4-blue?labelColor=black)
 ![Pact](https://img.shields.io/badge/Pact-4.3.15-blue?labelColor=black)
 
 # Contract Testing with Pact
@@ -27,6 +28,11 @@ So let's try to implement this flow:
 * [6+7) Deploy only when the "contract" is verified](#67-deploy-only-when-the-contract-has-been-verified)
 * [Implementation Details](#implementation-details)
 * [Want to know more?](#want-to-know-more)
+
+You can browse older versions of this repo:
+* [Spring Boot 2.x](https://github.com/rogervinas/contract-testing-with-pact/tree/spring-boot-2.x)
+
+https://github.com/rogervinas/spring-cloud-stream-kafka-step-by-step/tree/spring-2.x-legacy-annotations
 
 ## 1) Consumer defines the "contract" with the Provider
 
