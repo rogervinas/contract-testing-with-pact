@@ -615,7 +615,7 @@ Some, I hope useful, implementation details of this PoC:
 
 * We use [au.com.dius.pact](https://plugins.gradle.org/plugin/au.com.dius.pact) gradle plugin both for the consumer and the provider.
 * We use [au.com.dius.pact.consumer:junit5](https://mvnrepository.com/artifact/au.com.dius.pact.consumer/junit5) dependency for the consumer.
-* We use [au.com.dius.pact.provider:junit5spring](https://mvnrepository.com/artifact/au.com.dius.pact.provider/junit5spring) dependency for the provider.
+* We use [au.com.dius.pact.provider:spring6](https://mvnrepository.com/artifact/au.com.dius.pact.provider/spring6) dependency for the provider.
 * All [these system properties are available](https://docs.pact.io/implementation_guides/jvm/docs/system-properties).
 * Properties used in this PoC for the consumer:
   * `project.extra["pacticipant"] = "Sample API Client"` and `project.extra["pacticipantVersion"] = version` so we do not need to pass them everytime in the `canIDeploy` task. 
