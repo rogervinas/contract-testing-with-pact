@@ -29,6 +29,11 @@ So let's try to implement this flow:
 * [Implementation Details](#implementation-details)
 * [Want to know more?](#want-to-know-more)
 
+You can browse older versions of this repo:
+* [Spring Boot 2.x](https://github.com/rogervinas/contract-testing-with-pact/tree/spring-boot-2.x)
+
+https://github.com/rogervinas/spring-cloud-stream-kafka-step-by-step/tree/spring-2.x-legacy-annotations
+
 ## 1) Consumer defines the "contract" with the Provider
 
 For the "Sample API Client" we will use [Kotlin](https://kotlinlang.org/) and [Ktor client](https://ktor.io/docs/create-client.html).
