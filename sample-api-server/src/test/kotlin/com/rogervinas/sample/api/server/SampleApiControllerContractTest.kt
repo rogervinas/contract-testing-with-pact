@@ -4,8 +4,8 @@ import au.com.dius.pact.provider.junit5.PactVerificationContext
 import au.com.dius.pact.provider.junitsupport.Provider
 import au.com.dius.pact.provider.junitsupport.State
 import au.com.dius.pact.provider.junitsupport.loader.PactBroker
-import au.com.dius.pact.provider.spring.spring6.PactVerificationSpring6Provider
-import au.com.dius.pact.provider.spring.spring6.WebTestClientSpring6Target
+import au.com.dius.pact.provider.spring.junit5.PactVerificationSpringProvider
+import au.com.dius.pact.provider.spring.junit5.WebTestClientTarget
 import com.ninjasquad.springmockk.MockkBean
 import io.mockk.every
 import org.junit.jupiter.api.BeforeEach
@@ -19,7 +19,7 @@ import java.time.LocalDate
 @WebFluxTest(controllers = [SampleApiController::class])
 @Provider("Sample API Server")
 @PactBroker
-@ExtendWith(PactVerificationSpring6Provider::class)
+@ExtendWith(PactVerificationSpringProvider::class)
 class SampleApiControllerContractTest {
 
   @Autowired
@@ -30,7 +30,7 @@ class SampleApiControllerContractTest {
 
   @BeforeEach
   fun beforeEach(context: PactVerificationContext) {
-    context.target = WebTestClientSpring6Target(webTestClient)
+    context.target = WebTestClientTarget(webTestClient)
   }
 
   @TestTemplate

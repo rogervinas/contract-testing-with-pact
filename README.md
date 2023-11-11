@@ -1,8 +1,8 @@
 [![CI](https://github.com/rogervinas/contract-testing-with-pact/actions/workflows/ci.yml/badge.svg)](https://github.com/rogervinas/contract-testing-with-pact/actions/workflows/ci.yml)
-![Java](https://img.shields.io/badge/Java-21-blue?labelColor=black)
-![Kotlin](https://img.shields.io/badge/Kotlin-1.9.20-blue?labelColor=black)
-![SpringBoot](https://img.shields.io/badge/SpringBoot-3.1.5-blue?labelColor=black)
-![Pact](https://img.shields.io/badge/Pact-4.6.3-blue?labelColor=black)
+![Java](https://img.shields.io/badge/Java-11-blue?labelColor=black)
+![Kotlin](https://img.shields.io/badge/Kotlin-1.7.20-blue?labelColor=black)
+![SpringBoot](https://img.shields.io/badge/SpringBoot-2.7.4-blue?labelColor=black)
+![Pact](https://img.shields.io/badge/Pact-4.3.15-blue?labelColor=black)
 
 # Contract Testing with Pact
 
@@ -287,7 +287,7 @@ We start with this:
 @WebFluxTest(controllers = [SampleApiController::class])
 @Provider("Sample API Server")
 @PactFolder("../sample-api-client/build/pacts")
-@ExtendWith(PactVerificationSpring6Provider::class)
+@ExtendWith(PactVerificationSpringProvider::class)
 class SampleApiControllerContractTest {
 
   @Autowired
@@ -295,7 +295,7 @@ class SampleApiControllerContractTest {
 
   @BeforeEach
   fun beforeEach(context: PactVerificationContext) {
-    context.target = WebTestClientSpring6Target(webTestClient)
+    context.target = WebTestClientTarget(webTestClient)
   }
 
   @TestTemplate
@@ -320,7 +320,7 @@ Note that:
 * Just temporarily we use `@PactFolder` annotation to  **read the "contract" from the local directory** where `sample-api-client` has generated it. No need for a [PactBroker](https://docs.pact.io/pact_broker) yet.
 * We use `@Provider` annotation to specify that we are executing tests for the "Sample API Server" provider.
 * We have to create as many methods annotated with `@State` as states the "contract" expects. We leave them empty for now but we will have to properly set the state there.
-* Finally `PactVerificationSpring6Provider` junit5 extension and `pactVerificationTestTemplate` method annotated with junit5's `@TestTemplate` will create tests dynamically following the "contract". Again ✨magic✨
+* Finally `PactVerificationSpringProvider` junit5 extension and `pactVerificationTestTemplate` method annotated with junit5's `@TestTemplate` will create tests dynamically following the "contract". Again ✨magic✨
 
 If we create an empty `SampleApiController` to make this test compile:
 ```kotlin
@@ -373,7 +373,7 @@ class SampleApiController(private val repository: SampleRepository) {
 @WebFluxTest(controllers = [SampleApiController::class])
 @Provider("Sample API Server")
 @PactFolder("../sample-api-client/build/pacts")
-@ExtendWith(PactVerificationSpring6Provider::class)
+@ExtendWith(PactVerificationSpringProvider::class)
 class SampleApiControllerContractTest {
 
   @Autowired
@@ -384,7 +384,7 @@ class SampleApiControllerContractTest {
 
   @BeforeEach
   fun beforeEach(context: PactVerificationContext) {
-    context.target = WebTestClientSpring6Target(webTestClient)
+    context.target = WebTestClientTarget(webTestClient)
   }
 
   @TestTemplate
@@ -421,7 +421,7 @@ Finally, in a real scenario we will use `@PactBroker` instead of `@PactFolder` i
 @WebFluxTest(controllers = [SampleApiController::class])
 @Provider("Sample API Server")
 @PactBroker
-@ExtendWith(PactVerificationSpring6Provider::class)
+@ExtendWith(PactVerificationSpringProvider::class)
 class SampleApiControllerContractTest {
    // ... 
 }
@@ -438,7 +438,7 @@ We can also test the "contract" against the whole application using a [SpringBoo
 @SpringBootTest(webEnvironment = DEFINED_PORT)
 @Provider("Sample API Server")
 @PactBroker
-@ExtendWith(PactVerificationSpring6Provider::class)
+@ExtendWith(PactVerificationSpringProvider::class)
 class SampleApiServerContractTest {
 
   @TestTemplate
@@ -463,7 +463,7 @@ And a little extra code if we want to start the application using a random port:
 @SpringBootTest(webEnvironment = RANDOM_PORT)
 @Provider("Sample API Server")
 @PactBroker
-@ExtendWith(PactVerificationSpring6Provider::class)
+@ExtendWith(PactVerificationSpringProvider::class)
 class SampleApiServerContractTest {
 
   @LocalServerPort
@@ -620,7 +620,7 @@ Some, I hope useful, implementation details of this PoC:
 
 * We use [au.com.dius.pact](https://plugins.gradle.org/plugin/au.com.dius.pact) gradle plugin both for the consumer and the provider.
 * We use [au.com.dius.pact.consumer:junit5](https://mvnrepository.com/artifact/au.com.dius.pact.consumer/junit5) dependency for the consumer.
-* We use [au.com.dius.pact.provider:spring6](https://mvnrepository.com/artifact/au.com.dius.pact.provider/spring6) dependency for the provider.
+* We use [au.com.dius.pact.provider:junit5spring](https://mvnrepository.com/artifact/au.com.dius.pact.provider/junit5spring) dependency for the provider.
 * All [these system properties are available](https://docs.pact.io/implementation_guides/jvm/docs/system-properties).
 * Properties used in this PoC for the consumer:
   * `project.extra["pacticipant"] = "Sample API Client"` and `project.extra["pacticipantVersion"] = version` so we do not need to pass them everytime in the `canIDeploy` task. 
