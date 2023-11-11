@@ -1,7 +1,7 @@
 [![CI](https://github.com/rogervinas/contract-testing-with-pact/actions/workflows/ci.yml/badge.svg)](https://github.com/rogervinas/contract-testing-with-pact/actions/workflows/ci.yml)
 ![Java](https://img.shields.io/badge/Java-21-blue?labelColor=black)
 ![Kotlin](https://img.shields.io/badge/Kotlin-1.9.20-blue?labelColor=black)
-![Pact](https://img.shields.io/badge/Pact-4.3.15-blue?labelColor=black)
+![Pact](https://img.shields.io/badge/Pact-4.6.3-blue?labelColor=black)
 
 # Contract Testing with Pact
 

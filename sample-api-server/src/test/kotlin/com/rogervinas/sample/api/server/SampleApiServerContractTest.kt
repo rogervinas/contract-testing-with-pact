@@ -5,7 +5,7 @@ import au.com.dius.pact.provider.junit5.PactVerificationContext
 import au.com.dius.pact.provider.junitsupport.Provider
 import au.com.dius.pact.provider.junitsupport.State
 import au.com.dius.pact.provider.junitsupport.loader.PactBroker
-import au.com.dius.pact.provider.spring.junit5.PactVerificationSpringProvider
+import au.com.dius.pact.provider.spring.spring6.PactVerificationSpring6Provider
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.TestTemplate
 import org.junit.jupiter.api.extension.ExtendWith
@@ -19,7 +19,7 @@ import java.time.LocalDate
 @SpringBootTest(webEnvironment = RANDOM_PORT)
 @Provider("Sample API Server")
 @PactBroker
-@ExtendWith(PactVerificationSpringProvider::class)
+@ExtendWith(PactVerificationSpring6Provider::class)
 class SampleApiServerContractTest {
 
   @LocalServerPort

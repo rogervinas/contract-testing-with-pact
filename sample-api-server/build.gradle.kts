@@ -8,7 +8,7 @@ plugins {
     id("io.spring.dependency-management") version "1.1.3"
     kotlin("jvm") version "1.9.20"
     kotlin("plugin.spring") version "1.9.20"
-    id("au.com.dius.pact") version "4.3.15"
+    id("au.com.dius.pact") version "4.6.3"
 }
 
 version = "1.0"
@@ -32,9 +32,9 @@ dependencies {
     testImplementation("org.springframework.boot:spring-boot-starter-test")
     testImplementation("io.projectreactor:reactor-test")
 
-    testImplementation("au.com.dius.pact.provider:junit5spring:4.3.15")
+    testImplementation("au.com.dius.pact.provider:spring6:4.6.3")
 
-    testImplementation("com.ninja-squad:springmockk:3.1.1")
+    testImplementation("com.ninja-squad:springmockk:4.0.2")
 }
 
 kotlin {
