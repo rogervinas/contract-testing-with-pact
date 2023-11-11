@@ -32,7 +32,7 @@ class SampleApiClientContractTest {
 
     private val THING123_ID = SampleThingId(123)
     private val THING123_ID_JSON_PACT = PactDslJsonBody()
-      .integerType("id", 123L)
+      .integerType("id", 123)
   }
 
   @Pact(provider = "Sample API Server", consumer = "Sample API Client")
