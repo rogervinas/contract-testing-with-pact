@@ -14,20 +14,21 @@ import io.ktor.http.contentType
 import io.ktor.serialization.jackson.jackson
 
 class SampleApiKtorClient(private val serverUrl: String) : SampleApiClient {
-
-  private val client = HttpClient(CIO) {
-    install(ContentNegotiation) {
-      jackson {
-        registerModule(JavaTimeModule())
+  private val client =
+    HttpClient(CIO) {
+      install(ContentNegotiation) {
+        jackson {
+          registerModule(JavaTimeModule())
+        }
       }
     }
-  }
 
   override suspend fun create(thing: SampleThing): SampleThingId? {
-    val response = client.post("$serverUrl/thing") {
-      contentType(ContentType.Application.Json)
-      setBody(thing)
-    }
+    val response =
+      client.post("$serverUrl/thing") {
+        contentType(ContentType.Application.Json)
+        setBody(thing)
+      }
     return when (response.status) {
       HttpStatusCode.Created -> response.body<SampleThingId>()
       else -> null

@@ -18,21 +18,21 @@ import org.junit.jupiter.api.TestInstance.Lifecycle.PER_CLASS
 import org.junit.jupiter.api.extension.ExtendWith
 import java.time.LocalDate
 
-
 @ExtendWith(PactConsumerTestExt::class)
 @TestInstance(PER_CLASS)
 class SampleApiClientContractTest {
-
   companion object {
     private val THING123 = SampleThing("Foo", 123.45, LocalDate.of(2022, 10, 13))
-    private val THING123_JSON_PACT = PactDslJsonBody()
-      .stringMatcher("name", "\\w+", "Foo")
-      .decimalType("value", 123.45)
-      .localDate("date", "yyyy-MM-dd", LocalDate.of(2022, 10, 13))
+    private val THING123_JSON_PACT =
+      PactDslJsonBody()
+        .stringMatcher("name", "\\w+", "Foo")
+        .decimalType("value", 123.45)
+        .localDate("date", "yyyy-MM-dd", LocalDate.of(2022, 10, 13))
 
     private val THING123_ID = SampleThingId(123)
-    private val THING123_ID_JSON_PACT = PactDslJsonBody()
-      .integerType("id", 123L)
+    private val THING123_ID_JSON_PACT =
+      PactDslJsonBody()
+        .integerType("id", 123L)
   }
 
   @Pact(provider = "Sample API Server", consumer = "Sample API Client")
@@ -55,9 +55,10 @@ class SampleApiClientContractTest {
   @PactTestFor(providerName = "Sample API Server", pactMethod = "create", providerType = SYNCH)
   fun `should create thing`(mockServer: MockServer) {
     val client = SampleApiKtorClient(mockServer.getUrl())
-    val thingId = runBlocking {
-      client.create(THING123)
-    }
+    val thingId =
+      runBlocking {
+        client.create(THING123)
+      }
     assertThat(thingId)
       .isEqualTo(THING123_ID)
   }
@@ -80,9 +81,10 @@ class SampleApiClientContractTest {
   @PactTestFor(providerName = "Sample API Server", pactMethod = "getExistingThing", providerType = SYNCH)
   fun `should get thing 123 when it exists`(mockServer: MockServer) {
     val client = SampleApiKtorClient(mockServer.getUrl())
-    val thing = runBlocking {
-      client.get(THING123_ID)
-    }
+    val thing =
+      runBlocking {
+        client.get(THING123_ID)
+      }
     assertThat(thing)
       .isEqualTo(THING123)
   }
@@ -103,9 +105,10 @@ class SampleApiClientContractTest {
   @PactTestFor(providerName = "Sample API Server", pactMethod = "getNonExistingThing", providerType = SYNCH)
   fun `should not get thing 123 when it does not exist`(mockServer: MockServer) {
     val client = SampleApiKtorClient(mockServer.getUrl())
-    val thing = runBlocking {
-      client.get(THING123_ID)
-    }
+    val thing =
+      runBlocking {
+        client.get(THING123_ID)
+      }
     assertThat(thing).isNull()
   }
 }

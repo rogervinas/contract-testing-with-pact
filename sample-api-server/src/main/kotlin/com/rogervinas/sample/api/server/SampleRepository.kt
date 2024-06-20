@@ -5,7 +5,6 @@ import java.util.concurrent.atomic.AtomicInteger
 
 @Repository
 class SampleRepository {
-
   private val sampleThingIdNext = AtomicInteger(1)
   private val sampleThings = mutableMapOf<SampleThingId, SampleThing>()
 

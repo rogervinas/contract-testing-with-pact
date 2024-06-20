@@ -4,8 +4,9 @@ import org.gradle.api.tasks.testing.logging.TestLogEvent.PASSED
 import org.gradle.api.tasks.testing.logging.TestLogEvent.SKIPPED
 
 plugins {
-  id("org.jetbrains.kotlin.jvm") version "1.9.20"
-  id("au.com.dius.pact") version "4.6.3"
+  id("org.jetbrains.kotlin.jvm") version "2.0.0"
+  id("au.com.dius.pact") version "4.6.10"
+  id("org.jlleitschuh.gradle.ktlint") version "12.1.1"
   application
 }
 
@@ -35,9 +36,15 @@ dependencies {
   testImplementation("au.com.dius.pact.consumer:junit5:4.6.3")
 }
 
+java {
+  toolchain {
+    languageVersion = JavaLanguageVersion.of(21)
+  }
+}
+
 kotlin {
-  jvmToolchain {
-    languageVersion.set(JavaLanguageVersion.of(21))
+  compilerOptions {
+    freeCompilerArgs.addAll("-Xjsr305=strict")
   }
 }
 
