@@ -15,24 +15,26 @@ import java.time.LocalDate
 data class SampleThing(
   val name: String?,
   val value: Double?,
-  @JsonFormat(pattern = "yyyy-MM-dd") val date: LocalDate?
+  @JsonFormat(pattern = "yyyy-MM-dd") val date: LocalDate?,
 )
 
 data class SampleThingId(
-  val id: Int
+  val id: Int,
 )
 
 @RestController
 class SampleApiController(private val repository: SampleRepository) {
-
   @PostMapping("/thing", consumes = [APPLICATION_JSON_VALUE], produces = [APPLICATION_JSON_VALUE])
   @ResponseStatus(CREATED)
-  suspend fun create(@RequestBody thing: SampleThing) = repository.save(thing)
+  suspend fun create(
+    @RequestBody thing: SampleThing,
+  ) = repository.save(thing)
 
   @GetMapping("/thing/{id}", produces = [APPLICATION_JSON_VALUE])
-  suspend fun get(@PathVariable("id") id: Int) =
-    when (val thing = repository.get(SampleThingId(id))) {
-      null -> ResponseEntity.notFound().build()
-      else -> ResponseEntity.ok(thing)
-    }
+  suspend fun get(
+    @PathVariable("id") id: Int,
+  ) = when (val thing = repository.get(SampleThingId(id))) {
+    null -> ResponseEntity.notFound().build()
+    else -> ResponseEntity.ok(thing)
+  }
 }

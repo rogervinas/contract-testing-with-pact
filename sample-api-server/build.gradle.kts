@@ -4,11 +4,12 @@ import org.gradle.api.tasks.testing.logging.TestLogEvent.PASSED
 import org.gradle.api.tasks.testing.logging.TestLogEvent.SKIPPED
 
 plugins {
-    id("org.springframework.boot") version "3.1.5"
-    id("io.spring.dependency-management") version "1.1.3"
-    kotlin("jvm") version "1.9.20"
-    kotlin("plugin.spring") version "1.9.20"
-    id("au.com.dius.pact") version "4.6.3"
+  id("org.springframework.boot") version "3.1.5"
+  id("io.spring.dependency-management") version "1.1.3"
+  kotlin("jvm") version "2.0.0"
+  kotlin("plugin.spring") version "2.0.0"
+  id("au.com.dius.pact") version "4.6.10"
+  id("org.jlleitschuh.gradle.ktlint") version "12.1.1"
 }
 
 version = "1.0"
@@ -18,48 +19,54 @@ project.extra["pacticipant"] = "Sample API Server"
 project.extra["pacticipantVersion"] = version
 
 repositories {
-    mavenCentral()
+  mavenCentral()
 }
 
-dependencies {
-    implementation("org.springframework.boot:spring-boot-starter-webflux")
-    implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
-    implementation("io.projectreactor.kotlin:reactor-kotlin-extensions")
-    implementation("org.jetbrains.kotlin:kotlin-reflect")
-    implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-reactor")
-
-    testImplementation("org.springframework.boot:spring-boot-starter-test")
-    testImplementation("io.projectreactor:reactor-test")
-
-    testImplementation("au.com.dius.pact.provider:spring6:4.6.3")
-
-    testImplementation("com.ninja-squad:springmockk:4.0.2")
+java {
+  toolchain {
+    languageVersion = JavaLanguageVersion.of(21)
+  }
 }
 
 kotlin {
-    jvmToolchain {
-        languageVersion.set(JavaLanguageVersion.of(21))
-    }
+  compilerOptions {
+    freeCompilerArgs.addAll("-Xjsr305=strict")
+  }
+}
+
+dependencies {
+  implementation("org.springframework.boot:spring-boot-starter-webflux")
+  implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
+  implementation("io.projectreactor.kotlin:reactor-kotlin-extensions")
+  implementation("org.jetbrains.kotlin:kotlin-reflect")
+  implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
+  implementation("org.jetbrains.kotlinx:kotlinx-coroutines-reactor")
+
+  testImplementation("org.springframework.boot:spring-boot-starter-test")
+  testImplementation("io.projectreactor:reactor-test")
+
+  testImplementation("au.com.dius.pact.provider:spring6:4.6.3")
+
+  testImplementation("com.ninja-squad:springmockk:4.0.2")
 }
 
 tasks.withType<Test>().configureEach {
-    useJUnitPlatform()
-    testLogging {
-        events(PASSED, SKIPPED, FAILED)
-        exceptionFormat = FULL
-        showExceptions = true
-        showCauses = true
-        showStackTraces = true
-    }
+  useJUnitPlatform()
+  testLogging {
+    events(PASSED, SKIPPED, FAILED)
+    exceptionFormat = FULL
+    showExceptions = true
+    showCauses = true
+    showStackTraces = true
+  }
 
-    systemProperties["pactbroker.url"] = "${project.extra["pactbroker.url"]}"
-    systemProperties["pact.provider.version"] = version
-    systemProperties["pact.verifier.publishResults"] = "true"
+  systemProperties["pactbroker.url"] = "${project.extra["pactbroker.url"]}"
+  systemProperties["pact.provider.version"] = version
+  systemProperties["pact.verifier.publishResults"] = "true"
 }
 
 pact {
-    broker {
-        pactBrokerUrl = "${project.extra["pactbroker.url"]}"
-    }
+  broker {
+    pactBrokerUrl = "${project.extra["pactbroker.url"]}"
+  }
 }

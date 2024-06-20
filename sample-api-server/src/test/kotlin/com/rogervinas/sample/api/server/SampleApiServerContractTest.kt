@@ -15,13 +15,11 @@ import org.springframework.boot.test.context.SpringBootTest.WebEnvironment.RANDO
 import org.springframework.boot.test.web.server.LocalServerPort
 import java.time.LocalDate
 
-
 @SpringBootTest(webEnvironment = RANDOM_PORT)
 @Provider("Sample API Server")
 @PactBroker
 @ExtendWith(PactVerificationSpring6Provider::class)
 class SampleApiServerContractTest {
-
   @LocalServerPort
   private var port = 0
 

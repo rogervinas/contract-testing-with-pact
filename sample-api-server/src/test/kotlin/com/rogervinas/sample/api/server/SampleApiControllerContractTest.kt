@@ -21,7 +21,6 @@ import java.time.LocalDate
 @PactBroker
 @ExtendWith(PactVerificationSpring6Provider::class)
 class SampleApiControllerContractTest {
-
   @Autowired
   private lateinit var webTestClient: WebTestClient
 
