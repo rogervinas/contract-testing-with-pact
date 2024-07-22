@@ -17,44 +17,44 @@ jobs:
     - name: Checkout
       uses: actions/checkout@v4
 
-    - name: Set up JDK
+    - name: Java setup
       uses: actions/setup-java@v4
       with:
         java-version: '21'
         distribution: 'temurin'
 
-    - name: Gradle Cache
-      uses: actions/cache@v4
-      with:
-        path: |
-          ~/.gradle/caches
-          ~/.gradle/wrapper
-        key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
-        restore-keys: |
-          ${{ runner.os }}-gradle-
-
     - name: Start PactBroker
       run: docker compose up -d
 
     - name: Sample API Client check
-      run: ./gradlew check
-      working-directory: sample-api-client
+      uses: gradle/actions/setup-gradle@v3
+      with:
+        build-root-directory: sample-api-client
+        arguments: check
 
     - name: Sample API Client Pact publish
-      run: ./gradlew pactPublish
-      working-directory: sample-api-client
+      uses: gradle/actions/setup-gradle@v3
+      with:
+        build-root-directory: sample-api-client
+        arguments: pactPublish
 
     - name: Sample API Server check
-      run: ./gradlew check
-      working-directory: sample-api-server
+      uses: gradle/actions/setup-gradle@v3
+      with:
+        build-root-directory: sample-api-server
+        arguments: check
 
     - name: Sample API Client can deploy?
-      run: ./gradlew canIDeploy
-      working-directory: sample-api-client
+      uses: gradle/actions/setup-gradle@v3
+      with:
+        build-root-directory: sample-api-client
+        arguments: canIDeploy
 
     - name: Sample API Server can deploy?
-      run: ./gradlew canIDeploy
-      working-directory: sample-api-server
+      uses: gradle/actions/setup-gradle@v3
+      with:
+        build-root-directory: sample-api-server
+        arguments: canIDeploy
 
     - name: Stop PactBroker
       run: docker compose down
