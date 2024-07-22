@@ -14,47 +14,38 @@ jobs:
 
     steps:
 
-    - name: Checkout
-      uses: actions/checkout@v4
+      - name: Checkout
+        uses: actions/checkout@v4
 
-    - name: Set up Java
-      uses: actions/setup-java@v4
-      with:
-        java-version: 21
-        distribution: temurin
+      - name: Set up Java
+        uses: actions/setup-java@v4
+        with:
+          java-version: 21
+          distribution: temurin
+          cache: gradle
 
-    - name: Start PactBroker
-      run: docker compose up -d
+      - name: Start PactBroker
+        run: docker compose up -d
 
-    - name: Sample API Client check
-      uses: gradle/actions/setup-gradle@v3
-      with:
-        build-root-directory: sample-api-client
-        arguments: check
+      - name: Sample API Client check
+        working-directory: sample-api-client
+        run: ./gradlew check
 
-    - name: Sample API Client Pact publish
-      uses: gradle/actions/setup-gradle@v3
-      with:
-        build-root-directory: sample-api-client
-        arguments: pactPublish
+      - name: Sample API Client Pact publish
+        working-directory: sample-api-client
+        run: ./gradlew pactPublish
 
-    - name: Sample API Server check
-      uses: gradle/actions/setup-gradle@v3
-      with:
-        build-root-directory: sample-api-server
-        arguments: check
+      - name: Sample API Server check
+        working-directory: sample-api-server
+        run: ./gradlew check
 
-    - name: Sample API Client can deploy?
-      uses: gradle/actions/setup-gradle@v3
-      with:
-        build-root-directory: sample-api-client
-        arguments: canIDeploy
+      - name: Sample API Client can deploy?
+        working-directory: sample-api-client
+        run: ./gradlew canIDeploy
 
-    - name: Sample API Server can deploy?
-      uses: gradle/actions/setup-gradle@v3
-      with:
-        build-root-directory: sample-api-server
-        arguments: canIDeploy
+      - name: Sample API Server can deploy?
+        working-directory: sample-api-server
+        run: ./gradlew canIDeploy
 
-    - name: Stop PactBroker
-      run: docker compose down
+      - name: Stop PactBroker
+        run: docker compose down
