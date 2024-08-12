@@ -6,9 +6,9 @@ import org.gradle.api.tasks.testing.logging.TestLogEvent.SKIPPED
 plugins {
   id("org.springframework.boot") version "3.3.2"
   id("io.spring.dependency-management") version "1.1.6"
-  kotlin("jvm") version "2.0.0"
-  kotlin("plugin.spring") version "2.0.0"
-  id("au.com.dius.pact") version "4.6.11"
+  kotlin("jvm") version "2.0.10"
+  kotlin("plugin.spring") version "2.0.10"
+  id("au.com.dius.pact") version "4.6.13"
   id("org.jlleitschuh.gradle.ktlint") version "12.1.1"
 }
 
@@ -45,7 +45,7 @@ dependencies {
   testImplementation("org.springframework.boot:spring-boot-starter-test")
   testImplementation("io.projectreactor:reactor-test")
 
-  testImplementation("au.com.dius.pact.provider:spring6:4.6.11")
+  testImplementation("au.com.dius.pact.provider:spring6:4.6.13")
 
   testImplementation("com.ninja-squad:springmockk:4.0.2")
 }
