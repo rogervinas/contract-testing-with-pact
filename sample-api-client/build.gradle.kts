@@ -4,8 +4,8 @@ import org.gradle.api.tasks.testing.logging.TestLogEvent.PASSED
 import org.gradle.api.tasks.testing.logging.TestLogEvent.SKIPPED
 
 plugins {
-  id("org.jetbrains.kotlin.jvm") version "2.0.0"
-  id("au.com.dius.pact") version "4.6.11"
+  id("org.jetbrains.kotlin.jvm") version "2.0.10"
+  id("au.com.dius.pact") version "4.6.13"
   id("org.jlleitschuh.gradle.ktlint") version "12.1.1"
   application
 }
@@ -33,7 +33,7 @@ dependencies {
 
   testImplementation("org.junit.jupiter:junit-jupiter:5.10.3")
   testImplementation("com.willowtreeapps.assertk:assertk-jvm:0.28.1")
-  testImplementation("au.com.dius.pact.consumer:junit5:4.6.11")
+  testImplementation("au.com.dius.pact.consumer:junit5:4.6.13")
 }
 
 java {
