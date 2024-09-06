@@ -2,7 +2,7 @@
 ![Java](https://img.shields.io/badge/Java-21-blue?labelColor=black)
 ![Kotlin](https://img.shields.io/badge/Kotlin-2.0.20-blue?labelColor=black)
 ![SpringBoot](https://img.shields.io/badge/SpringBoot-3.3.3-blue?labelColor=black)
-![Pact](https://img.shields.io/badge/Pact-4.6.13-blue?labelColor=black)
+![Pact](https://img.shields.io/badge/Pact-4.6.14-blue?labelColor=black)
 
 # Contract Testing with Pact
 
