@@ -1,6 +1,6 @@
 [![CI](https://github.com/rogervinas/contract-testing-with-pact/actions/workflows/ci.yml/badge.svg)](https://github.com/rogervinas/contract-testing-with-pact/actions/workflows/ci.yml)
 ![Java](https://img.shields.io/badge/Java-21-blue?labelColor=black)
-![Kotlin](https://img.shields.io/badge/Kotlin-2.0.20-blue?labelColor=black)
+![Kotlin](https://img.shields.io/badge/Kotlin-2.x-blue?labelColor=black)
 ![SpringBoot](https://img.shields.io/badge/SpringBoot-3.3.4-blue?labelColor=black)
 ![Pact](https://img.shields.io/badge/Pact-4.6.14-blue?labelColor=black)
 
