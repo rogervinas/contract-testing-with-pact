@@ -5,7 +5,7 @@ import org.gradle.api.tasks.testing.logging.TestLogEvent.SKIPPED
 
 plugins {
   id("org.jetbrains.kotlin.jvm") version "2.1.0"
-  id("au.com.dius.pact") version "4.6.15"
+  id("au.com.dius.pact") version "4.6.16"
   id("org.jlleitschuh.gradle.ktlint") version "12.1.2"
   application
 }
@@ -24,7 +24,7 @@ dependencies {
   implementation(platform("org.jetbrains.kotlin:kotlin-bom"))
   implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
 
-  implementation(platform("io.ktor:ktor-bom:3.0.1"))
+  implementation(platform("io.ktor:ktor-bom:3.0.2"))
   implementation("io.ktor:ktor-client-core")
   implementation("io.ktor:ktor-client-cio")
   implementation("io.ktor:ktor-client-content-negotiation")
@@ -33,7 +33,7 @@ dependencies {
 
   testImplementation("org.junit.jupiter:junit-jupiter:5.11.3")
   testImplementation("com.willowtreeapps.assertk:assertk-jvm:0.28.1")
-  testImplementation("au.com.dius.pact.consumer:junit5:4.6.15")
+  testImplementation("au.com.dius.pact.consumer:junit5:4.6.16")
 }
 
 java {
