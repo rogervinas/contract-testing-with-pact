@@ -9,7 +9,6 @@ plugins {
   kotlin("jvm") version "2.1.0"
   kotlin("plugin.spring") version "2.1.0"
   id("au.com.dius.pact") version "4.6.16"
-  id("org.jlleitschuh.gradle.ktlint") version "12.1.2"
 }
 
 version = "1.0"
