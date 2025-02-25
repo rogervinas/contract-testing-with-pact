@@ -30,7 +30,11 @@ dependencies {
   implementation("io.ktor:ktor-serialization-jackson")
   implementation("com.fasterxml.jackson.datatype:jackson-datatype-jsr310")
 
-  testImplementation("org.junit.jupiter:junit-jupiter:5.12.0")
+  testImplementation(platform("org.junit:junit-bom:5.12.0"))
+  testImplementation("org.junit.jupiter:junit-jupiter")
+  testImplementation("org.junit.jupiter:junit-jupiter-params")
+  testRuntimeOnly("org.junit.platform:junit-platform-launcher")
+
   testImplementation("com.willowtreeapps.assertk:assertk-jvm:0.28.1")
   testImplementation("au.com.dius.pact.consumer:junit5:4.6.17")
 }
