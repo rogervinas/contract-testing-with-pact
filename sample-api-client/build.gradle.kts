@@ -4,7 +4,7 @@ import org.gradle.api.tasks.testing.logging.TestLogEvent.PASSED
 import org.gradle.api.tasks.testing.logging.TestLogEvent.SKIPPED
 
 plugins {
-  id("org.jetbrains.kotlin.jvm") version "2.1.10"
+  id("org.jetbrains.kotlin.jvm") version "2.1.20"
   id("au.com.dius.pact") version "4.6.17"
   application
 }
@@ -30,7 +30,7 @@ dependencies {
   implementation("io.ktor:ktor-serialization-jackson")
   implementation("com.fasterxml.jackson.datatype:jackson-datatype-jsr310")
 
-  testImplementation(platform("org.junit:junit-bom:5.12.0"))
+  testImplementation(platform("org.junit:junit-bom:5.12.1"))
   testImplementation("org.junit.jupiter:junit-jupiter")
   testImplementation("org.junit.jupiter:junit-jupiter-params")
   testRuntimeOnly("org.junit.platform:junit-platform-launcher")
