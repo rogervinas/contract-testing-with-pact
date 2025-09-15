@@ -4,7 +4,7 @@ import org.gradle.api.tasks.testing.logging.TestLogEvent.PASSED
 import org.gradle.api.tasks.testing.logging.TestLogEvent.SKIPPED
 
 plugins {
-  id("org.jetbrains.kotlin.jvm") version "2.2.10"
+  id("org.jetbrains.kotlin.jvm") version "2.2.20"
   id("au.com.dius.pact") version "4.6.17"
   application
 }
@@ -23,7 +23,7 @@ dependencies {
   implementation(platform("org.jetbrains.kotlin:kotlin-bom"))
   implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
 
-  implementation(platform("io.ktor:ktor-bom:3.2.3"))
+  implementation(platform("io.ktor:ktor-bom:3.3.0"))
   implementation("io.ktor:ktor-client-core")
   implementation("io.ktor:ktor-client-cio")
   implementation("io.ktor:ktor-client-content-negotiation")
