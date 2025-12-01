@@ -4,7 +4,7 @@ import org.gradle.api.tasks.testing.logging.TestLogEvent.PASSED
 import org.gradle.api.tasks.testing.logging.TestLogEvent.SKIPPED
 
 plugins {
-  id("org.springframework.boot") version "3.5.7"
+  id("org.springframework.boot") version "4.0.0"
   id("io.spring.dependency-management") version "1.1.7"
   kotlin("jvm") version "2.2.21"
   kotlin("plugin.spring") version "2.2.21"
@@ -46,7 +46,7 @@ dependencies {
 
   testImplementation("au.com.dius.pact.provider:spring6:4.6.18")
 
-  testImplementation("com.ninja-squad:springmockk:4.0.2")
+  testImplementation("com.ninja-squad:springmockk:5.0.1")
 }
 
 tasks.withType<Test>().configureEach {
