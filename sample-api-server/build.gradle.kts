@@ -45,8 +45,6 @@ dependencies {
   testImplementation("io.projectreactor:reactor-test")
 
   testImplementation("au.com.dius.pact.provider:spring6:4.6.18")
-
-  testImplementation("com.ninja-squad:springmockk:4.0.2")
 }
 
 tasks.withType<Test>().configureEach {

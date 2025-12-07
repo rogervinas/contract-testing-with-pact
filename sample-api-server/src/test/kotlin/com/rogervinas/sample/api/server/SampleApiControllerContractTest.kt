@@ -6,13 +6,13 @@ import au.com.dius.pact.provider.junitsupport.State
 import au.com.dius.pact.provider.junitsupport.loader.PactBroker
 import au.com.dius.pact.provider.spring.spring6.PactVerificationSpring6Provider
 import au.com.dius.pact.provider.spring.spring6.WebTestClientSpring6Target
-import com.ninjasquad.springmockk.MockkBean
 import io.mockk.every
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.TestTemplate
 import org.junit.jupiter.api.extension.ExtendWith
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.autoconfigure.web.reactive.WebFluxTest
+import org.springframework.test.context.bean.override.mockito.MockitoBean
 import org.springframework.test.web.reactive.server.WebTestClient
 import java.time.LocalDate
 
@@ -24,7 +24,7 @@ class SampleApiControllerContractTest {
   @Autowired
   private lateinit var webTestClient: WebTestClient
 
-  @MockkBean
+  @MockitoBean
   private lateinit var repository: SampleRepository
 
   @BeforeEach
