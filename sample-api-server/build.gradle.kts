@@ -4,11 +4,11 @@ import org.gradle.api.tasks.testing.logging.TestLogEvent.PASSED
 import org.gradle.api.tasks.testing.logging.TestLogEvent.SKIPPED
 
 plugins {
-  id("org.springframework.boot") version "3.5.7"
+  id("org.springframework.boot") version "4.0.1"
   id("io.spring.dependency-management") version "1.1.7"
-  kotlin("jvm") version "2.2.21"
-  kotlin("plugin.spring") version "2.2.21"
-  id("au.com.dius.pact") version "4.6.18"
+  kotlin("jvm") version "2.3.0"
+  kotlin("plugin.spring") version "2.3.0"
+  id("au.com.dius.pact") version "4.7.0-beta.3"
 }
 
 version = "1.0"
@@ -35,18 +35,18 @@ kotlin {
 
 dependencies {
   implementation("org.springframework.boot:spring-boot-starter-webflux")
-  implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
-  implementation("io.projectreactor.kotlin:reactor-kotlin-extensions")
+  implementation("tools.jackson.module:jackson-module-kotlin")
   implementation("org.jetbrains.kotlin:kotlin-reflect")
   implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
   implementation("org.jetbrains.kotlinx:kotlinx-coroutines-reactor")
 
   testImplementation("org.springframework.boot:spring-boot-starter-test")
-  testImplementation("io.projectreactor:reactor-test")
+  testImplementation("org.springframework.boot:spring-boot-starter-webflux-test")
+  testImplementation("org.springframework.boot:spring-boot-starter-webclient-test")
 
-  testImplementation("au.com.dius.pact.provider:spring6:4.6.18")
+  testImplementation("au.com.dius.pact.provider:spring7:4.7.0-beta.3")
 
-  testImplementation("com.ninja-squad:springmockk:4.0.2")
+  testImplementation("com.ninja-squad:springmockk:5.0.1")
 }
 
 tasks.withType<Test>().configureEach {
