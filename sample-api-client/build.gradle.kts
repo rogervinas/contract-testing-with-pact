@@ -4,7 +4,7 @@ import org.gradle.api.tasks.testing.logging.TestLogEvent.PASSED
 import org.gradle.api.tasks.testing.logging.TestLogEvent.SKIPPED
 
 plugins {
-  id("org.jetbrains.kotlin.jvm") version "2.2.21"
+  id("org.jetbrains.kotlin.jvm") version "2.3.0"
   id("au.com.dius.pact") version "4.7.0-beta.3"
   application
 }
