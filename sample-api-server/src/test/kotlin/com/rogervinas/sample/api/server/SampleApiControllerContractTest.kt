@@ -5,7 +5,7 @@ import au.com.dius.pact.provider.junitsupport.Provider
 import au.com.dius.pact.provider.junitsupport.State
 import au.com.dius.pact.provider.junitsupport.loader.PactBroker
 import au.com.dius.pact.provider.spring.spring7.PactVerificationSpring7Provider
-import au.com.dius.pact.provider.spring.spring7.WebTestClientSpring6Target
+import au.com.dius.pact.provider.spring.spring7.WebTestClientSpring7Target
 import com.ninjasquad.springmockk.MockkBean
 import io.mockk.every
 import org.junit.jupiter.api.BeforeEach
@@ -29,7 +29,7 @@ class SampleApiControllerContractTest {
 
   @BeforeEach
   fun beforeEach(context: PactVerificationContext) {
-    context.target = WebTestClientSpring6Target(webTestClient)
+    context.target = WebTestClientSpring7Target(webTestClient)
   }
 
   @TestTemplate
