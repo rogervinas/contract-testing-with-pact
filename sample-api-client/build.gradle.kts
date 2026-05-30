@@ -23,14 +23,14 @@ dependencies {
   implementation(platform("org.jetbrains.kotlin:kotlin-bom"))
   implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
 
-  implementation(platform("io.ktor:ktor-bom:3.4.3"))
+  implementation(platform("io.ktor:ktor-bom:3.5.0"))
   implementation("io.ktor:ktor-client-core")
   implementation("io.ktor:ktor-client-cio")
   implementation("io.ktor:ktor-client-content-negotiation")
   implementation("io.ktor:ktor-serialization-jackson")
   implementation("com.fasterxml.jackson.datatype:jackson-datatype-jsr310")
 
-  testImplementation(platform("org.junit:junit-bom:6.0.3"))
+  testImplementation(platform("org.junit:junit-bom:6.1.0"))
   testImplementation("org.junit.jupiter:junit-jupiter")
   testImplementation("org.junit.jupiter:junit-jupiter-params")
   testRuntimeOnly("org.junit.platform:junit-platform-launcher")
