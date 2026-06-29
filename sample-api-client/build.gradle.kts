@@ -4,8 +4,8 @@ import org.gradle.api.tasks.testing.logging.TestLogEvent.PASSED
 import org.gradle.api.tasks.testing.logging.TestLogEvent.SKIPPED
 
 plugins {
-  id("org.jetbrains.kotlin.jvm") version "2.3.21"
-  id("au.com.dius.pact") version "4.7.1"
+  id("org.jetbrains.kotlin.jvm") version "2.4.0"
+  id("au.com.dius.pact") version "4.7.3"
   application
 }
 
@@ -23,20 +23,20 @@ dependencies {
   implementation(platform("org.jetbrains.kotlin:kotlin-bom"))
   implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
 
-  implementation(platform("io.ktor:ktor-bom:3.5.0"))
+  implementation(platform("io.ktor:ktor-bom:3.5.1"))
   implementation("io.ktor:ktor-client-core")
   implementation("io.ktor:ktor-client-cio")
   implementation("io.ktor:ktor-client-content-negotiation")
   implementation("io.ktor:ktor-serialization-jackson")
   implementation("com.fasterxml.jackson.datatype:jackson-datatype-jsr310")
 
-  testImplementation(platform("org.junit:junit-bom:6.1.0"))
+  testImplementation(platform("org.junit:junit-bom:6.1.1"))
   testImplementation("org.junit.jupiter:junit-jupiter")
   testImplementation("org.junit.jupiter:junit-jupiter-params")
   testRuntimeOnly("org.junit.platform:junit-platform-launcher")
 
   testImplementation("com.willowtreeapps.assertk:assertk-jvm:0.28.1")
-  testImplementation("au.com.dius.pact.consumer:junit5:4.7.1")
+  testImplementation("au.com.dius.pact.consumer:junit5:4.7.3")
 }
 
 java {
