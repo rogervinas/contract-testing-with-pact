@@ -8,7 +8,7 @@ plugins {
   id("io.spring.dependency-management") version "1.1.7"
   kotlin("jvm") version "2.4.0"
   kotlin("plugin.spring") version "2.4.0"
-  id("au.com.dius.pact") version "4.7.1"
+  id("au.com.dius.pact") version "4.7.3"
 }
 
 version = "1.0"
@@ -44,7 +44,7 @@ dependencies {
   testImplementation("org.springframework.boot:spring-boot-starter-webflux-test")
   testImplementation("org.springframework.boot:spring-boot-starter-webclient-test")
 
-  testImplementation("au.com.dius.pact.provider:spring7:4.7.1")
+  testImplementation("au.com.dius.pact.provider:spring7:4.7.3")
 
   testImplementation("com.ninja-squad:springmockk:5.0.1")
 }
