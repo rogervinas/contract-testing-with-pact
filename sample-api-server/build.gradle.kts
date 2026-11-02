@@ -4,11 +4,11 @@ import org.gradle.api.tasks.testing.logging.TestLogEvent.PASSED
 import org.gradle.api.tasks.testing.logging.TestLogEvent.SKIPPED
 
 plugins {
-  id("org.springframework.boot") version "4.1.1"
+  id("org.springframework.boot") version "4.1.2"
   id("io.spring.dependency-management") version "1.1.7"
-  kotlin("jvm") version "2.4.10"
-  kotlin("plugin.spring") version "2.4.10"
-  id("au.com.dius.pact") version "4.7.5"
+  kotlin("jvm") version "2.4.21"
+  kotlin("plugin.spring") version "2.4.21"
+  id("au.com.dius.pact") version "4.7.6"
 }
 
 version = "1.0"
@@ -44,7 +44,7 @@ dependencies {
   testImplementation("org.springframework.boot:spring-boot-starter-webflux-test")
   testImplementation("org.springframework.boot:spring-boot-starter-webclient-test")
 
-  testImplementation("au.com.dius.pact.provider:spring7:4.7.5")
+  testImplementation("au.com.dius.pact.provider:spring7:4.7.6")
 
   testImplementation("com.ninja-squad:springmockk:5.0.1")
 }
